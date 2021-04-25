@@ -49,6 +49,9 @@ function App() {
                         <Route path="/home">
                             <Home />
                         </Route>
+                        <Route path="/">
+                            <Home />
+                        </Route>
                         <Route path="/register-food-provider">
                             <Register />
                         </Route>
