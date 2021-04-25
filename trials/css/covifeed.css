@@ -1,0 +1,28 @@
+#navigationbar {
+    color: white;
+    font-family: Roboto;
+    font-weight: 700;
+    font-size: 16pt;
+    background-color: black;
+    height: 45px;
+    top: 0px;
+    left: 0px;
+    white-space: nowrap;
+    width: 100%;
+    position: fixed;
+    padding-top: 17px;
+}
+
+#navigationtitle {
+    float: left;
+    padding-left: 30px;
+}
+
+#navigationelements {
+    float: right;
+    padding-right: 10px;
+}
+
+.navigationelement {
+    margin-right: 20px;
+}

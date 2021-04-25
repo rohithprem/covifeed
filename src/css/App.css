@@ -1,0 +1,173 @@
+body{
+  background-color: rgb(245,242,240);
+  margin: 0;
+  font-size: 16pt;
+}
+
+#navigationbar{
+  width: 80%;
+  margin: 0 auto;
+  color: white;
+  font-weight: 700;
+  font-size: 16pt;
+  text-decoration: none;
+}
+
+header{
+  background: black;
+  color: white;
+  position: fixed;
+  top: 0;
+  width: 100%
+}
+
+header::after{
+  content: '';
+  display: table;
+  clear: both;
+}
+
+#navigationtitle{
+  float: left;
+  padding: 20px 0;
+}
+
+#navigationelements{
+  float: right;
+  padding: 20px 0;
+}
+
+nav ul{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+nav li{
+  display: inline-block;
+  margin: 0 0 0 40px;
+  position: relative;
+}
+
+nav li a{
+  color: inherit;
+  text-decoration: inherit;
+}
+
+nav li a:hover{
+  color: #eac38d;
+}
+
+.titletext{
+  font-size: 17pt;
+}
+
+.titleheader{
+  margin: 20px;
+  font-size: 25pt;
+}
+
+nav li a.selected::after{
+  content: '';
+  display: block;
+  height: 3px;
+  width: 100%;
+  background: rgba(255,213,79,1);
+  position: absolute;
+  width: 100%;
+}
+
+#page{
+  width: 80%;
+  margin: 0 auto;
+}
+
+div .halfwidth{
+  max-width: 700px;
+  display: inline-block;
+  margin: 10px;
+}
+
+#covifeedfrontimage{
+  width: 100%;
+  object-fit: cover;
+  object-position: 20% 10%;
+  overflow: hidden;
+}
+
+#covifeedfrontvideo{
+  width: 100%;
+  height: 400px;
+  background-color: black !important
+}
+
+.button{
+  background: rgba(255,213,79,1);
+  text-decoration: none;
+
+}
+
+.buttondiv{
+  background: rgba(255,213,79,1);
+  margin: 10px;
+  padding: 10px;
+}
+
+section{
+  text-align: center;
+  padding: 20px 0 20px 0;
+}
+
+#frontintrotextdiv{
+  text-align: left;
+  margin: 10px;
+}
+
+.embeddeddata{
+  width: 90%;
+  height: 3800px;
+}
+
+.dataheader{
+  margin: 20px;
+}
+
+.separator{
+  width: 100%;
+  padding: 50px;
+  text-align: center;
+}
+
+div .separator::after{
+  content: '';
+  display: block;
+  height: 3px;
+  width: 20%;
+  background: #a7a3a3;
+  position: absolute;
+  text-align: center;
+
+}
+
+a .socialmediaicons{
+  text-decoration: none !important;
+  color: #fff;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20px;
+  font-size: 25px;
+  overflow: hidden;
+  position: relative;
+}
+
+.fa {
+  padding: 20px;
+  font-size: 30px;
+  width: 50px;
+  text-align: center;
+  text-decoration: none;
+  margin: 5px 2px;
+}
