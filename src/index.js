@@ -14,9 +14,9 @@ import {
 } from "react-router-dom";
 
 ReactDOM.render(
-  <Router>
-    <Route path="/" component={App} />
-  </Router>,
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>,
   document.getElementById('root')
 );
 

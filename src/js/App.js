@@ -14,7 +14,6 @@ import Volunteer from './Volunteer.js'
 import Register from './Register.js'
 
 function App() {
-    console.log(useLocation());
     return (
         <Router>
             <div className="App">
@@ -28,7 +27,7 @@ function App() {
                             <nav>
                                 <ul>
                                     <li className="navigationelement">
-                                        <NavLink exact activeClassName="selected" to="/home">Food Finder</NavLink>
+                                        <NavLink exact activeClassName="selected" to="/">Food Finder</NavLink>
                                     </li>
                                     <li className="navigationelement">
                                         <NavLink exact activeClassName="selected" to="/register-food-provider">Register Food Provide</NavLink>
