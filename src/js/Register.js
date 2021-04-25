@@ -6,6 +6,8 @@ import {
     useLocation
 } from "react-router-dom";
 
+import SocialMedia from "./SocialMedia"
+
 function Register() {
     console.log(useLocation());
     return (
@@ -23,6 +25,7 @@ function Register() {
                     <span></span>
                 </div>
             </section>
+            <SocialMedia/>
         </div>
     );
 }

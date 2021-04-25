@@ -5,6 +5,7 @@ import {
     Link,
     useLocation
 } from "react-router-dom";
+import SocialMedia from "./SocialMedia"
 
 function Volunteer() {
     console.log(useLocation());
@@ -23,6 +24,7 @@ function Volunteer() {
                     <span></span>
                 </div>
             </section>
+            <SocialMedia/>
         </div>
     );
 }
