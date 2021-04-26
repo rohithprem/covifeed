@@ -5,13 +5,15 @@ import {
     Switch,
     Route,
     NavLink,
-    useLocation
+    useLocation,
+    Redirect
 } from "react-router-dom";
 
 import About from './About.js'
 import Home from './Home.js'
 import Volunteer from './Volunteer.js'
 import Register from './Register.js'
+import React from 'react';
 
 function App() {
     return (
@@ -27,7 +29,7 @@ function App() {
                             <nav>
                                 <ul>
                                     <li className="navigationelement">
-                                        <NavLink exact activeClassName="selected" to="/">Food Finder</NavLink>
+                                        <NavLink exact activeClassName="selected" to="/home">Food Finder</NavLink>
                                     </li>
                                     <li className="navigationelement">
                                         <NavLink exact activeClassName="selected" to="/register-food-provider">Register Food Provide</NavLink>
@@ -45,10 +47,10 @@ function App() {
                 </header>
                 <div id="pagebody">
                     <Switch>
-                        <Route path="/home">
-                            <Home />
+                        <Route exact path="/">
+                            <Redirect to="/home"/>
                         </Route>
-                        <Route path="/">
+                        <Route path="/home">
                             <Home />
                         </Route>
                         <Route path="/register-food-provider">
