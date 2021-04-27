@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm --prefix react-ui run build && nodemon server.js --exec babel-node --presets env",
+    "start": "npm --prefix react-ui/ install && npm --prefix react-ui/ run build && npm install && nodemon server.js --exec babel-node --presets env",
     "start_server": "nodemon server.js --exec babel-node --presets env",
-    "release": "npm run clean && npm --prefix react-ui build npm run build && npm run server",
+    "release": "npm run clean && npm --prefix react-ui/ && npm run build && npm run server",
     "clean": "rm -rf dist && mkdir dist",
     "serve": "node dist/server.js"
   },
