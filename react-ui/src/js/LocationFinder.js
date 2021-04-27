@@ -1,5 +1,10 @@
 import React from "react";
 import '../css/LocationFinder.css';
+import VirtualizedSelect from 'react-virtualized-select'
+
+import 'react-select/dist/react-select.css'
+import 'react-virtualized/styles.css'
+import 'react-virtualized-select/styles.css'
 
 export class LocationFinder extends React.Component {
     constructor(props) {
@@ -7,59 +12,62 @@ export class LocationFinder extends React.Component {
         super(props);
         this.setState({
             isLoaded: false,
-            providers: {data:[]}
+            providers: {data:[]},
+            cityDropDown: [],
+            stateDropDown: [],
+            selectedCity: [],
+            selectedState: []
         })
     }
 
-    /*componentWillMount() {
-        console.log("COMPONENT WILL");
-        this.setState({
-            isLoaded: false,
-            providers: []
-        })
-        fetch("/providers/")
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    console.log("WILL TESTSTST");
-                    console.log(result);
-                    this.setState({
-                        isLoaded: true,
-                        providers: result
-                    });
-                },
-                // Note: it's important to handle errors here
-                // instead of a catch() block so that we don't swallow
-                // exceptions from actual bugs in components.
-                (error) => {
-                    this.setState({
-                        isLoaded: true,
-                        error
-                    });
-                }
-            )
-    }*/
-
     componentDidMount() {
         console.log("COMPONENT DID");
-        fetch("/providers/")
+        fetch("/providers/?start=0&size=50")
             .then(res => res.json())
             .then(
                 (result) => {
                     console.log(" DID TESTSTST");
                     console.log(result);
                     this.setState({
-                        isLoaded: true,
                         providers: result
                     });
                 },
-                // Note: it's important to handle errors here
-                // instead of a catch() block so that we don't swallow
-                // exceptions from actual bugs in components.
                 (error) => {
+                    console.err(error);
                     this.setState({
-                        isLoaded: true,
-                        error
+                        providers: {data:[]}
+                    });
+                }
+            )
+
+        fetch("/providers/filters/city")
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    this.setState({
+                        cityDropDown: this.prepareDropDownData(result.data)
+                    });
+                },
+                (error) => {
+                    console.err(error);
+                    this.setState({
+                        cityDropDown: []
+                    });
+                }
+            )
+
+        fetch("/providers/filters/state")
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    this.setState({
+                        stateDropDown: this.prepareDropDownData(result.data)
+                    });
+                },
+                (error) => {
+                    console.err(error);
+                    this.setState({
+                        stateDropDown: []
                     });
                 }
             )
@@ -87,12 +95,43 @@ export class LocationFinder extends React.Component {
     "Pre-OrderRequirements": "string",
     "PrimaryContactNumberToPlaceOrder": "string",
     "ServiceType": "string",
-    "State": "string",
-    "State_user": "string",
-    "Timestamp": "string"
     * */
+    cityOnChange(selectedValue){
+        console.log("OnChange");
+        console.log(selectedValue);
+        // this.state.selectedFilter = selectedValue.value;
+        this.setState({selectedCity: selectedValue? selectedValue : [] });
+    }
+
+    stateOnChange(selectedValue){
+        console.log("OnChange");
+        console.log(selectedValue);
+        // this.state.selectedFilter = selectedValue.value;
+        this.setState({selectedState: selectedValue? selectedValue : [] });
+    }
+
+    prepareDropDownData(dbArray){
+        let dropdownItems = [];
+        if(dbArray){
+            dropdownItems = dbArray.map(function(dbItem, index){
+                let dropDownItem = {
+                    value: index+1,
+                    label: dbItem._id,
+                    totaldocs: dbItem.totaldocs
+                };
+                return dropDownItem;
+            });
+        }
+        return dropdownItems;
+    }
+
     render() {
         let cards;
+        const options = [
+            { label: "One", value: 1 , test:"ABCd"},
+            { label: "Two", value: 2 , test:"ABCd123"},
+            { label: "Three", value: 3, test:"ABCd4312"}
+        ]
         if(this.state && this.state.providers){
             let providers = this.state.providers.data;
             cards = providers.map(function(provider, index){
@@ -133,9 +172,41 @@ export class LocationFinder extends React.Component {
             });
         }
         console.log(cards)
+        console.log(this.state);
+        let selectedCity = null
+        let selectedState = null
+        let cityDropDownList = [];
+        let stateDropDownList = [];
+        if(this.state){
+            stateDropDownList = this.state.stateDropDown;
+            cityDropDownList = this.state.cityDropDown;
+            selectedCity = this.state.selectedCity;
+            selectedState = this.state.selectedState;
+        }
         return (
             <div id="locationfinder">
-                {cards}
+                <div id="providerfilters">
+                    <VirtualizedSelect
+                        options={stateDropDownList}
+                        onChange={this.stateOnChange.bind(this)}
+                        value={selectedState}
+                        clearable={true}
+                        multi={true}
+                        searchable={true}
+
+                    />
+                    <VirtualizedSelect
+                        options={cityDropDownList}
+                        onChange={this.cityOnChange.bind(this)}
+                        value={selectedCity}
+                        clearable={true}
+                        multi={true}
+                        searchable={true}
+                    />
+                </div>
+                <div id="providerslist">
+                    {cards}
+                </div>
             </div>
         );
     }

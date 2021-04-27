@@ -1,17 +1,26 @@
-@media only screen and (min-width: 768px) {
-    #locationfinder{
-        display: -webkit-flex;
-        display: flex;
-        -webkit-flex-direction: row;
-        flex-direction: row;
-        -webkit-flex-wrap: wrap;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
+#providerslist{
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    justify-content: center;
+}
 
-    providercarddetails-table{
-        display: table;
-    }
+providercarddetails-table{
+    display: table;
+}
+
+.providercarddetail {
+    display: table-row;
+}
+
+.providercontact{
+    /*display: flex;*/
+}
+
+@media only screen and (min-width: 768px) {
 
     .providercard{
         width: 660px;
@@ -24,10 +33,6 @@
         /*align-items: flex-start;*/
     }
 
-    .providercarddetail {
-        display: table-row;
-    }
-
     .provider-key, .provider-value{
         display: table-cell;
         text-align: left;
@@ -38,26 +43,9 @@
         white-space: nowrap;
     }
 
-    .providercontact{
-        /*display: flex;*/
-    }
 }
 
 @media only screen and (max-width: 768px) {
-    #locationfinder{
-        display: -webkit-flex;
-        display: flex;
-        -webkit-flex-direction: row;
-        flex-direction: row;
-        -webkit-flex-wrap: wrap;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    providercarddetails-table{
-        display: table;
-    }
-
     .providercard{
         width: 330px;
         background: #fff;
@@ -67,10 +55,6 @@
         /*justify-content: space-evenly;*/
         padding: 16px;
         /*align-items: flex-start;*/
-    }
-
-    .providercarddetail {
-        display: table-row;
     }
 
     .provider-key, .provider-value{
@@ -83,8 +67,5 @@
         white-space: nowrap;
     }
 
-    .providercontact{
-        /*display: flex;*/
-    }
 }
 

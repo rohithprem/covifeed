@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "npm --prefix react-ui/ install && npm install && npm --prefix react-ui/ run build && node server.js PORT",
+    "starti": "npm --prefix react-ui/ run build && nodemon server.js ",
     "start_server": "nodemon server.js --exec babel-node --presets env",
     "release": "npm run clean && npm --prefix react-ui/ && npm run build && npm run server",
     "clean": "rm -rf dist && mkdir dist",

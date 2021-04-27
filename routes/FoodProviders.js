@@ -31,12 +31,17 @@ function showData(err, res){
 }*/
 
 router.get("/", async (req, res) => {
+    let size = Number(req.query.size);
+    let start = Number(req.query.start);
+    console.log(size);
+    console.log(start);
     try {
-        var documents = await Provider.find().skip(0).limit(20).exec();
+        let documents = await Provider.find().skip(start).limit(size).exec();
         res.status(200).json({
             data: documents
         });
     } catch (err) {
+        console.log(err);
         res.status(400).json({
             message: "Some error occured",
             err
@@ -44,7 +49,51 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/filters/state", async (req, res) => {
+    try {
+        let documents = await Provider.aggregate([{
+            $group: {
+                _id: "$State",
+                totaldocs: {
+                    $sum: 1
+                }
+            }
+        }]).exec();
+        res.status(200).json({
+            data: documents
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({
+            message: "Some error occured",
+            err
+        });
+    }
+})
+
+router.get("/filters/city", async (req, res) => {
+    try {
+        let documents = await Provider.aggregate([{
+            $group: {
+                _id: "$City",
+                totaldocs: {
+                    $sum: 1
+                }
+            }
+        }]).exec();
+        res.status(200).json({
+            data: documents
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({
+            message: "Some error occured",
+            err
+        });
+    }
+})
+
+/*router.get("/:id", async (req, res) => {
     let { id } = req.params;
     id = Number(id);
     try {
@@ -58,6 +107,6 @@ router.get("/:id", async (req, res) => {
             err
         });
     }
-});
+});*/
 
 module.exports = router;
