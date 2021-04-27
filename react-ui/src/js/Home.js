@@ -1,7 +1,7 @@
 import CovifeedFrontPage from "../covifeed_intro.png"
 import CovifeedIntroVideo from "../cfeed_instructions.mp4"
 import SocialMedia from "./SocialMedia"
-//import LocationFinder from "./LocationFinder"
+import LocationFinder from "./LocationFinder"
 import React from 'react';
 //  import { useSelector, useDispatch } from 'react-redux';
 
@@ -11,20 +11,20 @@ export class Home extends React.Component{
         this.state = {testValue: 1};
     }
 
-    handleClick(){
+    /*handleClick(){
         console.log(this)
         //this.state.testValue++;
         this.setState(state => ({
             testValue: state.testValue+1
         }));
-    }
+    }*/
 
     render(){
         return (
             <div id="page">
                 <section>
-                <span onClick={this.handleClick.bind(this)} id="topscrollmessage" className="titletext fullwidth">
-                    Scroll down to search for food providers near you {this.state.testValue}
+                <span id="topscrollmessage" className="titletext fullwidth">
+                    Scroll down to search for food providers near you
                 </span>
                 </section>
                 <section>
@@ -47,9 +47,10 @@ export class Home extends React.Component{
                     <div className="dataheader">
                         Finder - Use the filters to find details and phone numbers of home food providers near your location
                     </div>
-                    <iframe className="embeddeddata" height="1000"
+                    {/*<iframe className="embeddeddata" height="1000"
                             src="https://datastudio.google.com/embed/reporting/3a7151da-593c-4193-82f0-01991d8fdc8c/page/RNCEC"
-                            allowFullScreen/>
+                            allowFullScreen/>*/}
+                    <LocationFinder/>
                 </section>
                 <section>
                     <div className="separator">

@@ -1,8 +1,9 @@
 body{
   background-color: rgb(245,242,240);
   margin: 0;
-  font-size: 16pt;
+  font-size: 13pt;
   width: 100%;
+  font-family: arial;
 }
 
 #root{
@@ -83,7 +84,7 @@ nav li a.selected::after{
 }
 
 #page{
-  /*width: 80%;*/
+  width: 80%;
   margin: 0 auto;
 }
 

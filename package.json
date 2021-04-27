@@ -1,0 +1,30 @@
+{
+  "name": "express-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm --prefix react-ui run build && nodemon server.js --exec babel-node --presets env",
+    "start_server": "nodemon server.js --exec babel-node --presets env",
+    "release": "npm run clean && npm --prefix react-ui build npm run build && npm run server",
+    "clean": "rm -rf dist && mkdir dist",
+    "build": "babel . -s -D -d dist --presets env --ignore node_modules",
+    "serve": "node dist/server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel-node": "0.0.1-security",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "helmet": "^4.5.0",
+    "mongoose": "^5.12.5",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "nodemon": "^2.0.7"
+  }
+}
