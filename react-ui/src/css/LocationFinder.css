@@ -31,8 +31,11 @@ div#providerfilters {
     display: -webkit-flex;
     display: flex;
     margin: 34px;
+    -webkit-justify-content: center;
     justify-content: center;
+    -webkit-flex-wrap: wrap;
     flex-wrap: wrap;
+    align-items: center;
 }
 
 .providerfilterdropdown {
@@ -128,4 +131,30 @@ i.fa.fa-whatsapp:hover{
     font-weight: bold;
     cursor: pointer;
 }
+
+div#providerfilter-count {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: column;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-align-content: center;
+    align-content: center;
+    -webkit-align-items: center;
+    align-items: center;
+    margin: 20px;
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    padding: 10px;
+    max-height: 50px;
+    border-radius: 4px;
+}
+
+
+
+#providerfilterlabel-count{
+    color: #b9b9b9;
+}
+
 
