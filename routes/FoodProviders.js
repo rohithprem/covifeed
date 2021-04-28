@@ -33,10 +33,11 @@ function showData(err, res){
 router.get("/", async (req, res) => {
     let size = Number(req.query.size);
     let start = Number(req.query.start);
-    console.log(size);
-    console.log(start);
+    let states = JSON.parse(req.query.states);
+    let cities = JSON.parse(req.query.cities);
     try {
-        let documents = await Provider.find().skip(start).limit(size).exec();
+        let filterQuery = buildFilterQuery(states,cities);
+        let documents = await Provider.find(filterQuery).skip(start).limit(size).exec();
         res.status(200).json({
             data: documents
         });
@@ -50,15 +51,12 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/filters/state", async (req, res) => {
+    let states = JSON.parse(req.query.states);
+    let cities = JSON.parse(req.query.cities);
     try {
-        let documents = await Provider.aggregate([{
-            $group: {
-                _id: "$State",
-                totaldocs: {
-                    $sum: 1
-                }
-            }
-        }]).exec();
+        let filterQuery = buildFilterQuery(states,cities);
+        let aggregateQuery = buildAggregateQuery("State", filterQuery);
+        let documents = await Provider.aggregate(aggregateQuery).exec();
         res.status(200).json({
             data: documents
         });
@@ -72,15 +70,12 @@ router.get("/filters/state", async (req, res) => {
 })
 
 router.get("/filters/city", async (req, res) => {
+    let states = JSON.parse(req.query.states);
+    let cities = JSON.parse(req.query.cities);
     try {
-        let documents = await Provider.aggregate([{
-            $group: {
-                _id: "$City",
-                totaldocs: {
-                    $sum: 1
-                }
-            }
-        }]).exec();
+        let filterQuery = buildFilterQuery(states,cities);
+        let aggregateQuery = buildAggregateQuery("City", filterQuery);
+        let documents = await Provider.aggregate(aggregateQuery).exec();
         res.status(200).json({
             data: documents
         });
@@ -92,6 +87,36 @@ router.get("/filters/city", async (req, res) => {
         });
     }
 })
+
+function buildFilterQuery (states, cities) {
+    let filterQuery = {};
+    if(states && states.length > 0){
+        filterQuery.State = {$in:states}
+    }
+    if(cities && cities.length > 0){
+        filterQuery.City = {$in:cities}
+    }
+    console.log(filterQuery);
+    return filterQuery;
+}
+
+function buildAggregateQuery (aggregateField, filterQuery){
+    let aggregateQuery = [
+        {
+            $match : filterQuery
+        },
+        {
+            $group: {
+                _id: "$" + aggregateField,
+                totaldocs: {
+                    $sum: 1
+                }
+            }
+        }
+    ]
+    console.log(aggregateQuery);
+    return aggregateQuery;
+}
 
 /*router.get("/:id", async (req, res) => {
     let { id } = req.params;

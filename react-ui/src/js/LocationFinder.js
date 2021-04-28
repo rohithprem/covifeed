@@ -7,22 +7,29 @@ import 'react-virtualized/styles.css'
 import 'react-virtualized-select/styles.css'
 
 export class LocationFinder extends React.Component {
+
     constructor(props) {
         console.log("CONSTRUCTOR");
         super(props);
-        this.setState({
+        this.state = {
             isLoaded: false,
             providers: {data:[]},
             cityDropDown: [],
             stateDropDown: [],
             selectedCity: [],
-            selectedState: []
-        })
+            selectedState: [],
+            filterquery: {city:[], state: []}
+        }
+        //this.setState()
     }
 
     componentDidMount() {
         console.log("COMPONENT DID");
-        fetch("/providers/?start=0&size=50")
+        this.fetchData();
+    }
+
+    fetchData(){
+        fetch("/providers/?start=0&size=50&states=" + JSON.stringify(this.state.filterquery.state) + "&cities=" + JSON.stringify(this.state.filterquery.city))
             .then(res => res.json())
             .then(
                 (result) => {
@@ -40,7 +47,7 @@ export class LocationFinder extends React.Component {
                 }
             )
 
-        fetch("/providers/filters/city")
+        fetch("/providers/filters/city?states=" + JSON.stringify(this.state.filterquery.state) + "&cities=" + JSON.stringify(this.state.filterquery.city))
             .then(res => res.json())
             .then(
                 (result) => {
@@ -56,7 +63,7 @@ export class LocationFinder extends React.Component {
                 }
             )
 
-        fetch("/providers/filters/state")
+        fetch("/providers/filters/state?states=" + JSON.stringify(this.state.filterquery.state) + "&cities=" + JSON.stringify(this.state.filterquery.city))
             .then(res => res.json())
             .then(
                 (result) => {
@@ -100,14 +107,38 @@ export class LocationFinder extends React.Component {
         console.log("OnChange");
         console.log(selectedValue);
         // this.state.selectedFilter = selectedValue.value;
-        this.setState({selectedCity: selectedValue? selectedValue : [] });
+        let citiesSelected = selectedValue.map(function(values, index){
+            return values.label;
+        });
+        let filterquery = this.state.filterquery;
+        if(!filterquery){
+            filterquery = {city:[], state:[]}
+        }
+        filterquery.city = citiesSelected;
+        this.setState({
+            selectedCity: selectedValue? selectedValue : [],
+            filterquery: filterquery
+        });
+        this.fetchData();
     }
 
     stateOnChange(selectedValue){
         console.log("OnChange");
         console.log(selectedValue);
         // this.state.selectedFilter = selectedValue.value;
-        this.setState({selectedState: selectedValue? selectedValue : [] });
+        let statesSelected = selectedValue.map(function(values, index){
+            return values.label;
+        });
+        let filterquery = this.state.filterquery;
+        if(!filterquery){
+            filterquery = {city:[], state:[]}
+        }
+        filterquery.state = statesSelected;
+        this.setState({
+            selectedState: selectedValue? selectedValue : [],
+            filterquery: filterquery
+        });
+        this.fetchData();
     }
 
     prepareDropDownData(dbArray){
@@ -125,54 +156,51 @@ export class LocationFinder extends React.Component {
         return dropdownItems;
     }
 
-    render() {
-        let cards;
-        const options = [
-            { label: "One", value: 1 , test:"ABCd"},
-            { label: "Two", value: 2 , test:"ABCd123"},
-            { label: "Three", value: 3, test:"ABCd4312"}
-        ]
-        if(this.state && this.state.providers){
-            let providers = this.state.providers.data;
-            cards = providers.map(function(provider, index){
-                return (
-                    <div className="providercard" id={"providercard-" + index}>
-                        <div className="providercarddetails-table">
-                            <div className="providercarddetail card-name">
-                                <div className="provider-key">Name: </div><div className="provider-value">{provider.Name}</div>
-                            </div>
-                            <div className="providercarddetail card-contact">
-                                <div className="provider-key">Contact: </div><div className="provider-value">{provider.PrimaryContactNumberToPlaceOrder}</div>
-                            </div>
-                            <div className="providercarddetail card-city">
-                                <div className="provider-key">City: </div><div className="provider-value">{provider.City}</div>
-                            </div>
-                            <div className="providercarddetail card-state">
-                                <div className="provider-key">State: </div><div className="provider-value">{provider.State}</div>
-                            </div>
-                            <div className="providercarddetail card-deliveryoption">
-                                <div className="provider-key">DeliveryOptions: </div><div className="provider-value">{provider.DeliveryOptions}</div>
-                            </div>
-                            <div className="providercarddetail card-deliveryareas">
-                                <div className="provider-key">DeliveryAreas: </div><div className="provider-value">{provider.DeliveryAreas}</div>
-                            </div>
-                            <div className="providercarddetail card-mealoptions">
-                                <div className="provider-key">MealOptions: </div><div className="provider-value">{provider.MealOptions}</div>
-                            </div>
+    createCards(providers){
+        // let providers = this.state.providers.data;
+        let cards = providers.map(function(provider, index){
+            return (
+                <div className="providercard" id={"providercard-" + index}>
+                    <div className="providercarddetails-table">
+                        <div className="providercarddetail card-name">
+                            <div className="provider-key">Name: </div><div className="provider-value">{provider.Name}</div>
                         </div>
-                        <div className="providercontact">
+                        <div className="providercarddetail card-contact">
+                            <div className="provider-key">Contact: </div><div className="provider-value">{provider.PrimaryContactNumberToPlaceOrder}</div>
+                        </div>
+                        <div className="providercarddetail card-city">
+                            <div className="provider-key">City: </div><div className="provider-value">{provider.City}</div>
+                        </div>
+                        <div className="providercarddetail card-state">
+                            <div className="provider-key">State: </div><div className="provider-value">{provider.State}</div>
+                        </div>
+                        <div className="providercarddetail card-deliveryoption">
+                            <div className="provider-key">DeliveryOptions: </div><div className="provider-value">{provider.DeliveryOptions}</div>
+                        </div>
+                        <div className="providercarddetail card-deliveryareas">
+                            <div className="provider-key">DeliveryAreas: </div><div className="provider-value">{provider.DeliveryAreas}</div>
+                        </div>
+                        <div className="providercarddetail card-mealoptions">
+                            <div className="provider-key">MealOptions: </div><div className="provider-value">{provider.MealOptions}</div>
+                        </div>
+                    </div>
+                    <div className="providercontact">
                             <span>
                                 <a href={"tel:"+provider.PrimaryContactNumberToPlaceOrder} className="contacticons"><i className="fa fa-phone" aria-hidden="true"/></a>
                             </span>
-                            <span>
+                        <span>
                                 <a href={"https://api.whatsapp.com/send?phone=91"+ provider.PrimaryContactNumberToPlaceOrder}  className="contacticons"><i className="fa fa-whatsapp" aria-hidden="true"/></a>
                             </span>
-                        </div>
+                    </div>
                 </div>)
-            });
-        }
-        console.log(cards)
+        });
+        return cards;
+    }
+
+    render() {
+        console.log("RENDER");
         console.log(this.state);
+        let cards = [];
         let selectedCity = null
         let selectedState = null
         let cityDropDownList = [];
@@ -182,6 +210,9 @@ export class LocationFinder extends React.Component {
             cityDropDownList = this.state.cityDropDown;
             selectedCity = this.state.selectedCity;
             selectedState = this.state.selectedState;
+            if(this.state.providers){
+                cards = this.createCards(this.state.providers.data);
+            }
         }
         return (
             <div id="locationfinder">
@@ -193,7 +224,6 @@ export class LocationFinder extends React.Component {
                         clearable={true}
                         multi={true}
                         searchable={true}
-
                     />
                     <VirtualizedSelect
                         options={cityDropDownList}
