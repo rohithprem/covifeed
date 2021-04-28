@@ -114,3 +114,18 @@ i.fa.fa-whatsapp:hover{
 
 }
 
+#providerslist-pagination-holder{
+    margin: 40px 0 40px 0;
+}
+
+.providerslist-pagination-button{
+    height: 40px;
+    width: 200px;
+    /* border-radius: 4px; */
+    /* border: none; */
+    border: 1px solid #ccc;
+    background-color: #ffd54f;
+    font-weight: bold;
+    cursor: pointer;
+}
+

@@ -27,17 +27,15 @@ export class LocationFinder extends React.Component {
             selectedCity: [],
             selectedState: [],
             filterquery: {city:[], state: [], pincode: []},
-            elementChange: null
+            elementChange: null,
+            paginationStart: 0,
+            paginationSize: 5
         }
     }
 
     componentDidMount() {
         console.log("COMPONENT DID");
         this.fetchData();
-    }
-
-    checkDataToFetch(){
-
     }
 
     fetchData(){
@@ -118,15 +116,22 @@ export class LocationFinder extends React.Component {
     }
 
     fetchProviders(){
-        fetch("/providers/?start=0&size=50"
+        fetch("/providers/"
+            + "?start=0" + this.state.paginationStart + "&size=" + this.state.paginationSize
             + "&states=" + JSON.stringify(this.state.filterquery.state)
             + "&cities=" + JSON.stringify(this.state.filterquery.city)
             + "&pincodes=" + JSON.stringify(this.state.filterquery.pincode))
             .then(res => res.json())
             .then(
                 (result) => {
+                    let providers = this.state.providers;
+                    console.log("BEFORE: " + providers.length);
+                    result.data.forEach(function(value, index){
+                        providers.data.push(value)
+                    });
+                    console.log("AFTER: " + providers.length);
                     this.setState({
-                        providers: result
+                        providers: providers
                     });
                 },
                 (error) => {
@@ -161,10 +166,13 @@ export class LocationFinder extends React.Component {
     "PrimaryContactNumberToPlaceOrder": "string",
     "ServiceType": "string",
     * */
+
+    resetProviders(){
+        this.state.paginationStart = 0;
+        this.state.providers = {data:[]}
+    }
+
     cityOnChange(selectedValue){
-        console.log("OnChange");
-        console.log(selectedValue);
-        // this.state.selectedFilter = selectedValue.value;
         let citiesSelected = selectedValue.map(function(values, index){
             return values.label;
         });
@@ -176,13 +184,11 @@ export class LocationFinder extends React.Component {
         this.state.selectedCity = selectedValue? selectedValue : [];
         this.state.filterquery = filterquery;
         this.state.elementChange = CITY_FILTER;
+        this.resetProviders();
         this.fetchData();
     }
 
     stateOnChange(selectedValue){
-        console.log("OnChange");
-        console.log(selectedValue);
-        // this.state.selectedFilter = selectedValue.value;
         let statesSelected = selectedValue.map(function(values, index){
             return values.label;
         });
@@ -194,13 +200,11 @@ export class LocationFinder extends React.Component {
         this.state.selectedState = selectedValue? selectedValue : [];
         this.state.filterquery = filterquery;
         this.state.elementChange = STATE_FILTER;
+        this.resetProviders();
         this.fetchData();
     }
 
     pinCodeOnChange(selectedValue){
-        console.log("OnChange");
-        console.log(selectedValue);
-        // this.state.selectedFilter = selectedValue.value;
         let pinCodesSelected = selectedValue.map(function(values, index){
             return values.label;
         });
@@ -212,6 +216,7 @@ export class LocationFinder extends React.Component {
         this.state.selectedPINCode = selectedValue? selectedValue : [];
         this.state.filterquery = filterquery;
         this.state.elementChange = PINCODE_FILTER;
+        this.resetProviders();
         this.fetchData();
     }
 
@@ -266,12 +271,20 @@ export class LocationFinder extends React.Component {
                                 <a href={"tel:"+provider.PrimaryContactNumberToPlaceOrder} className="contacticons"><i className="fa fa-phone" aria-hidden="true"/></a>
                             </span>
                         <span>
-                                <a href={"https://api.whatsapp.com/send?phone=91"+ 9967545912 + "&text=" + whatsappText + "&&app_absent=1"}  className="contacticons"><i className="fa fa-whatsapp" aria-hidden="true"/></a>
+                                <a href={"https://api.whatsapp.com/send?phone=91"+ provider.PrimaryContactNumberToPlaceOrder + "&text=" + whatsappText + "&&app_absent=1"}  className="contacticons"><i className="fa fa-whatsapp" aria-hidden="true"/></a>
                             </span>
                     </div>
                 </div>)
         });
         return cards;
+    }
+
+    loadMore(){
+        let pagination = this.state.paginationStart;
+        let increment = this.state.paginationSize;
+        pagination += increment;
+        this.state.paginationStart = pagination;
+        this.fetchProviders();
     }
 
     render() {
@@ -339,6 +352,9 @@ export class LocationFinder extends React.Component {
                 </div>
                 <div id="providerslist">
                     {cards}
+                </div>
+                <div id="providerslist-pagination-holder">
+                    <button className="providerslist-pagination-button" onClick={this.loadMore.bind(this)}>Load More</button>
                 </div>
             </div>
         );
