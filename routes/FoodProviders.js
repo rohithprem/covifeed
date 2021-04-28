@@ -35,8 +35,10 @@ router.get("/", async (req, res) => {
     let start = Number(req.query.start);
     let states = JSON.parse(req.query.states);
     let cities = JSON.parse(req.query.cities);
+    console.log(req.query.pincodes);
+    let pincodes = JSON.parse(req.query.pincodes);
     try {
-        let filterQuery = buildFilterQuery(states,cities);
+        let filterQuery = buildFilterQuery(states,cities, pincodes);
         let documents = await Provider.find(filterQuery).skip(start).limit(size).exec();
         res.status(200).json({
             data: documents
@@ -50,12 +52,14 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.get("/filters/state", async (req, res) => {
+router.get("/filters/:filterField", async (req, res) => {
     let states = JSON.parse(req.query.states);
     let cities = JSON.parse(req.query.cities);
+    let pincodes = JSON.parse(req.query.pincodes);
+    let filterField = req.params.filterField;
     try {
-        let filterQuery = buildFilterQuery(states,cities);
-        let aggregateQuery = buildAggregateQuery("State", filterQuery);
+        let filterQuery = buildFilterQuery(states,cities, pincodes);
+        let aggregateQuery = buildAggregateQuery(filterField, filterQuery);
         let documents = await Provider.aggregate(aggregateQuery).exec();
         res.status(200).json({
             data: documents
@@ -69,7 +73,7 @@ router.get("/filters/state", async (req, res) => {
     }
 })
 
-router.get("/filters/city", async (req, res) => {
+/*router.get("/filters/city", async (req, res) => {
     let states = JSON.parse(req.query.states);
     let cities = JSON.parse(req.query.cities);
     try {
@@ -86,15 +90,18 @@ router.get("/filters/city", async (req, res) => {
             err
         });
     }
-})
+})*/
 
-function buildFilterQuery (states, cities) {
+function buildFilterQuery (states, cities, pincodes) {
     let filterQuery = {};
     if(states && states.length > 0){
         filterQuery.State = {$in:states}
     }
     if(cities && cities.length > 0){
         filterQuery.City = {$in:cities}
+    }
+    if(pincodes && pincodes.length > 0){
+        filterQuery.PINCode = {$in:pincodes}
     }
     console.log(filterQuery);
     return filterQuery;
