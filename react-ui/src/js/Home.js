@@ -11,14 +11,6 @@ export class Home extends React.Component{
         this.state = {testValue: 1};
     }
 
-    /*handleClick(){
-        console.log(this)
-        //this.state.testValue++;
-        this.setState(state => ({
-            testValue: state.testValue+1
-        }));
-    }*/
-
     render(){
         return (
             <div id="page">

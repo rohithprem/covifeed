@@ -1,4 +1,4 @@
-import logo from '../logo.svg';
+import logo from '../logo.jpeg';
 import '../css/App.css';
 import {
     BrowserRouter as Router,
@@ -21,10 +21,10 @@ function App() {
             <div className="App">
                 <header>
                     <div id="navigationbar" className="navigationbar">
-                        <div id="navigationtitle">
-                            <span id="navigationtitlelogo" className="navigationtitleelement"></span>
+                        <a href={"/home"}><div id="navigationtitle">
+                            <span id="navigationtitlelogo" className="navigationtitleelement"><img id="titlelogo" src={logo}/></span>
                             <span id="navigationtitletext" className="navigationtitleelement">Covifeed India</span>
-                        </div>
+                        </div></a>
                         <div id="navigationelements">
                             <nav>
                                 <ul>

@@ -36,6 +36,12 @@ header::after{
 #navigationtitle{
   float: left;
   padding: 20px 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  color: white;
 }
 
 #navigationelements{
@@ -180,4 +186,46 @@ a .socialmediaicons{
   text-align: center;
   text-decoration: none;
   margin: 5px 2px;
+}
+
+img#titlelogo {
+  width: 90px;
+}
+
+.navigationtitleelement {
+  margin: 0 10px 0 0;
+}
+
+div.buttons>a>i.fa{
+  color: white;
+  color: white;
+  height: 40px;
+  border-radius: 4px;
+  padding: 6px 0 0 0;
+}
+
+a.socialmediaicons {
+  margin: 3px;
+}
+
+i.fa.fa-twitter{
+  background-color: #0a98ff;
+}
+
+i.fa.fa-instagram{
+  background-color: #a005d4;
+}
+
+i.fa.fa-envelope{
+  background-color: #d8214d;
+}
+
+@media only screen and (max-width: 768px) {
+  .navigationtitleelement {
+    margin: 0;
+  }
+
+  #navigationtitletext{
+    display: none;
+  }
 }

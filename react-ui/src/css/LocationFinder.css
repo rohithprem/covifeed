@@ -54,10 +54,6 @@ span.providerfilterlabel {
     cursor: pointer;
 }
 
-.providercard:hover{
-    background: #fffbf0;
-}
-
 .provider-key, .provider-value{
     display: table-cell;
     text-align: left;
