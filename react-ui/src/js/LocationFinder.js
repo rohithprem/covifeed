@@ -29,7 +29,8 @@ export class LocationFinder extends React.Component {
             filterquery: {city:[], state: [], pincode: []},
             elementChange: null,
             paginationStart: 0,
-            paginationSize: 5
+            paginationSize: 25,
+            providerCount: 0
         }
     }
 
@@ -50,6 +51,7 @@ export class LocationFinder extends React.Component {
         if(this.state.elementChange !== PINCODE_FILTER){
             this.fetchPINCodeAggs();
         }
+        this.fetchCount();
     }
 
     fetchStateAggs(){
@@ -143,6 +145,27 @@ export class LocationFinder extends React.Component {
             )
     }
 
+    fetchCount(){
+        fetch("/providers/count"
+            + "?states=" + JSON.stringify(this.state.filterquery.state)
+            + "&cities=" + JSON.stringify(this.state.filterquery.city)
+            + "&pincodes=" + JSON.stringify(this.state.filterquery.pincode))
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    this.setState({
+                        providerCount: result.data
+                    });
+                },
+                (error) => {
+                    console.err(error);
+                    this.setState({
+                        providers: {data:[]}
+                    });
+                }
+            )
+    }
+
     /*
     * "AlternativeContact": "string",
     "AvailableDays": "string",
@@ -186,6 +209,7 @@ export class LocationFinder extends React.Component {
         this.state.elementChange = CITY_FILTER;
         this.resetProviders();
         this.fetchData();
+        this.fetchCount();
     }
 
     stateOnChange(selectedValue){
@@ -202,6 +226,7 @@ export class LocationFinder extends React.Component {
         this.state.elementChange = STATE_FILTER;
         this.resetProviders();
         this.fetchData();
+        this.fetchCount();
     }
 
     pinCodeOnChange(selectedValue){
@@ -218,6 +243,7 @@ export class LocationFinder extends React.Component {
         this.state.elementChange = PINCODE_FILTER;
         this.resetProviders();
         this.fetchData();
+        this.fetchCount();
     }
 
     prepareDropDownData(dbArray){
@@ -307,6 +333,7 @@ export class LocationFinder extends React.Component {
                 cards = this.createCards(this.state.providers.data);
             }
         }
+        let shouldLoadMore = this.state.providers.data.length == this.state.providerCount;
         return (
             <div id="locationfinder">
                 <div id="providerfilters">
@@ -349,13 +376,17 @@ export class LocationFinder extends React.Component {
                             />
                         </span>
                     </div>
+                    <div id="providerfilter-count">
+                        <span id="providerfilterlabel-count" className="providerfilterlabel">You have found</span>
+                        <span id="providerfilter-count">{this.state.providerCount} Meal Providers</span>
+                    </div>
                 </div>
                 <div id="providerslist">
                     {cards}
                 </div>
-                <div id="providerslist-pagination-holder">
+                {shouldLoadMore ? "" : (<div id="providerslist-pagination-holder">
                     <button className="providerslist-pagination-button" onClick={this.loadMore.bind(this)}>Load More</button>
-                </div>
+                </div>)}
             </div>
         );
     }

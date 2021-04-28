@@ -30,18 +30,40 @@ function showData(err, res){
     console.log("Error:" + err)
 }*/
 
+
 router.get("/", async (req, res) => {
     let size = Number(req.query.size);
     let start = Number(req.query.start);
     let states = JSON.parse(req.query.states);
     let cities = JSON.parse(req.query.cities);
-    console.log(req.query.pincodes);
     let pincodes = JSON.parse(req.query.pincodes);
     try {
         let filterQuery = buildFilterQuery(states,cities, pincodes);
         let documents = await Provider.find(filterQuery).skip(start).limit(size).exec();
         res.status(200).json({
             data: documents
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({
+            message: "Some error occured",
+            err
+        });
+    }
+});
+
+router.get("/count", async (req, res) => {
+    let size = Number(req.query.size);
+    let start = Number(req.query.start);
+    let states = JSON.parse(req.query.states);
+    let cities = JSON.parse(req.query.cities);
+    let pincodes = JSON.parse(req.query.pincodes);
+    try {
+        let filterQuery = buildFilterQuery(states,cities, pincodes);
+        let count = await Provider.count(filterQuery).exec();
+        console.log("Count: " + count);
+        res.status(200).json({
+            data: count
         });
     } catch (err) {
         console.log(err);
@@ -73,25 +95,6 @@ router.get("/filters/:filterField", async (req, res) => {
     }
 })
 
-/*router.get("/filters/city", async (req, res) => {
-    let states = JSON.parse(req.query.states);
-    let cities = JSON.parse(req.query.cities);
-    try {
-        let filterQuery = buildFilterQuery(states,cities);
-        let aggregateQuery = buildAggregateQuery("City", filterQuery);
-        let documents = await Provider.aggregate(aggregateQuery).exec();
-        res.status(200).json({
-            data: documents
-        });
-    } catch (err) {
-        console.log(err);
-        res.status(400).json({
-            message: "Some error occured",
-            err
-        });
-    }
-})*/
-
 function buildFilterQuery (states, cities, pincodes) {
     let filterQuery = {};
     if(states && states.length > 0){
@@ -103,7 +106,6 @@ function buildFilterQuery (states, cities, pincodes) {
     if(pincodes && pincodes.length > 0){
         filterQuery.PINCode = {$in:pincodes}
     }
-    console.log(filterQuery);
     return filterQuery;
 }
 
@@ -124,21 +126,5 @@ function buildAggregateQuery (aggregateField, filterQuery){
     console.log(aggregateQuery);
     return aggregateQuery;
 }
-
-/*router.get("/:id", async (req, res) => {
-    let { id } = req.params;
-    id = Number(id);
-    try {
-        //let player = players.find(player => player._id === id);
-        res.status(200).json({
-            data: {"id":"PLAYER" + id}
-        });
-    } catch (err) {
-        res.status(400).json({
-            message: "Some error occured",
-            err
-        });
-    }
-});*/
 
 module.exports = router;
