@@ -22,8 +22,12 @@ app.use("/providers", FoodProviders);
 //FoodProviders.init(app);
 
 //Routing to index.html
-app.get("/home",returnIndexPage);
-app.get("/", returnIndexPage);
+/*app.get("/home",returnIndexPage);
+app.get("/register-food-provider",returnIndexPage);
+app.get("/volunteer-to-help",returnIndexPage);
+app.get("/about",returnIndexPage);*/
+
+app.get("/*", returnIndexPage);
 
 //Initiate REST Calls
 app.listen(port, function() {

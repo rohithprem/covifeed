@@ -31,7 +31,9 @@ export class Home extends React.Component{
                     <div className="halfwidth">
                         <img id="covifeedfrontimage" src={CovifeedFrontPage}/>
                         <div id="frontintrotextdiv">
-                            Home - food providers: tiffin services, home-chefs, volunteers, restaurants providing Covid special meals, click to add your details quickly & make yourself searchable. CoviFeedIndia is a volunteer initiative and does not charge anyone to use this website or to add their details
+                            <b>Home - food providers: tiffin services, home-chefs, volunteers, restaurants</b>
+                            providing Covid special meals, click to add your details quickly & make yourself searchable.
+                            <b>CoviFeedIndia is a volunteer initiative and does not charge anyone to use this website or to add their details</b>
                         </div>
                         <div className="buttondiv">
                             <a id="foodproviderfrontbutton" className="button" href="/register-food-provider">

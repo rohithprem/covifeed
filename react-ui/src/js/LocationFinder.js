@@ -20,7 +20,6 @@ export class LocationFinder extends React.Component {
             selectedState: [],
             filterquery: {city:[], state: []}
         }
-        //this.setState()
     }
 
     componentDidMount() {
@@ -217,22 +216,32 @@ export class LocationFinder extends React.Component {
         return (
             <div id="locationfinder">
                 <div id="providerfilters">
-                    <VirtualizedSelect
-                        options={stateDropDownList}
-                        onChange={this.stateOnChange.bind(this)}
-                        value={selectedState}
-                        clearable={true}
-                        multi={true}
-                        searchable={true}
-                    />
-                    <VirtualizedSelect
-                        options={cityDropDownList}
-                        onChange={this.cityOnChange.bind(this)}
-                        value={selectedCity}
-                        clearable={true}
-                        multi={true}
-                        searchable={true}
-                    />
+                    <div id="providerfilter-state" className="providerfilterdiv">
+                        <span className="providerfilterlabel">State</span>
+                        <span className="providerfilterdropdown">
+                            <VirtualizedSelect
+                                options={stateDropDownList}
+                                onChange={this.stateOnChange.bind(this)}
+                                value={selectedState}
+                                clearable={true}
+                                multi={true}
+                                searchable={true}
+                            />
+                        </span>
+                    </div>
+                    <div id="providerfilter-city" className="providerfilterdiv">
+                        <span className="providerfilterlabel">City</span>
+                        <span className="providerfilterdropdown">
+                            <VirtualizedSelect
+                                options={cityDropDownList}
+                                onChange={this.cityOnChange.bind(this)}
+                                value={selectedCity}
+                                clearable={true}
+                                multi={true}
+                                searchable={true}
+                            />
+                        </span>
+                    </div>
                 </div>
                 <div id="providerslist">
                     {cards}

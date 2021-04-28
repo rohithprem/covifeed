@@ -99,6 +99,8 @@ div .halfwidth{
   object-fit: cover;
   object-position: 20% 10%;
   overflow: hidden;
+  border-radius: 4px;
+  border: 1px solid #ccc;
 }
 
 #covifeedfrontvideo{
@@ -108,15 +110,17 @@ div .halfwidth{
 }
 
 .button{
-  background: rgba(255,213,79,1);
+  color: black;
   text-decoration: none;
-
+  font-weight: bold;
 }
 
 .buttondiv{
   background: rgba(255,213,79,1);
   margin: 10px;
   padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
 }
 
 section{
