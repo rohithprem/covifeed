@@ -46,10 +46,6 @@ export class Home extends React.Component{
                             allowFullScreen/>*/}
                     <LocationFinder/>
                 </section>
-                <section>
-                    <div className="separator">
-                    </div>
-                </section>
                 <SocialMedia/>
             </div>
         );

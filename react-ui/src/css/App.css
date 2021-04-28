@@ -1,5 +1,5 @@
 body{
-  background-color: rgb(245,242,240);
+  background-color: #f7fbfd;
   margin: 0;
   font-size: 13pt;
   width: 100%;
@@ -35,13 +35,18 @@ header::after{
 
 #navigationtitle{
   float: left;
-  padding: 20px 0;
+  padding: 12px 0 0 0;
+  display: -webkit-flex;
   display: flex;
+  -webkit-flex-direction: row;
   flex-direction: row;
+  -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
+  -webkit-justify-content: center;
   justify-content: center;
+  -webkit-align-items: center;
   align-items: center;
-  color: white;
+  color: #fff;
 }
 
 #navigationelements{
@@ -204,8 +209,12 @@ div.buttons>a>i.fa{
   padding: 6px 0 0 0;
 }
 
+div>div.buttons{
+  margin: 20px 0 0 0;
+}
+
 a.socialmediaicons {
-  margin: 3px;
+  margin: 13px;
 }
 
 i.fa.fa-twitter{
@@ -228,4 +237,13 @@ i.fa.fa-envelope{
   #navigationtitletext{
     display: none;
   }
+}
+
+section#social-media-footer{
+  background-color: rgb(255 213 79 / 11%);
+  border-top: 1px solid #ccc;
+}
+
+div#social-media-title{
+  font-weight: bold;
 }

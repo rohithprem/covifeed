@@ -1,9 +1,9 @@
 
 function SocialMedia() {
     return (
-        <section>
+        <section id="social-media-footer">
             <div>
-                <div>Follow us on social media</div>
+                <div id="social-media-title">Find us on social media</div>
                 <div className="buttons">
                     <a href="https://twitter.com/covifeedindia" className="tw socialmediaicons" title="Join us on Twitter">
                         <i className="fa fa-twitter" aria-hidden="true"/>
