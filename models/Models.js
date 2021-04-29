@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 const foodProvider = new Schema({
+    "id": "string",
     "AlternativeContact": "string",
     "AvailableDays": "string",
     "AverageMealPriceFor2People": "string",

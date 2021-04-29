@@ -37,8 +37,10 @@ router.get("/", async (req, res) => {
     let states = JSON.parse(req.query.states);
     let cities = JSON.parse(req.query.cities);
     let pincodes = JSON.parse(req.query.pincodes);
+    let nameSearch = req.query.namesearch;
     try {
-        let filterQuery = buildFilterQuery(states,cities, pincodes);
+        let filterQuery = buildFilterQuery(states,cities, pincodes, nameSearch);
+        console.log(filterQuery);
         let documents = await Provider.find(filterQuery).skip(start).limit(size).exec();
         res.status(200).json({
             data: documents
@@ -95,7 +97,7 @@ router.get("/filters/:filterField", async (req, res) => {
     }
 })
 
-function buildFilterQuery (states, cities, pincodes) {
+function buildFilterQuery (states, cities, pincodes, nameSearch) {
     let filterQuery = {};
     if(states && states.length > 0){
         filterQuery.State = {$in:states}
@@ -105,6 +107,9 @@ function buildFilterQuery (states, cities, pincodes) {
     }
     if(pincodes && pincodes.length > 0){
         filterQuery.PINCode = {$in:pincodes}
+    }
+    if(nameSearch && nameSearch.length){
+        filterQuery.Name = {$regex : ".*" + nameSearch + ".*"};
     }
     return filterQuery;
 }

@@ -1,7 +1,7 @@
 import React from "react";
 import '../css/LocationFinder.css';
 import VirtualizedSelect from 'react-virtualized-select'
-
+import ProviderCard from "./ProviderCard";
 import 'react-select/dist/react-select.css'
 import 'react-virtualized/styles.css'
 import 'react-virtualized-select/styles.css'
@@ -9,10 +9,6 @@ import 'react-virtualized-select/styles.css'
 const STATE_FILTER = "STATE_FILTER"
 const CITY_FILTER = "CITY_FILTER"
 const PINCODE_FILTER = "PINCODE_FILTER"
-
-const whatsappText = encodeURI(
-    "Hello 👋,\nI found your service through covifeedindia.com.\nI'd love to place an order.\n🥐🍞🥖🧋🍴🍎🫐🥭🥝"
-);
 
 export class LocationFinder extends React.Component {
 
@@ -25,12 +21,14 @@ export class LocationFinder extends React.Component {
             stateDropDown: [],
             pinCodeDropDown: [],
             selectedCity: [],
-            selectedState: [],
+            selectedState: null,
+            selectedNameFilter: "",
             filterquery: {city:[], state: [], pincode: []},
             elementChange: null,
             paginationStart: 0,
-            paginationSize: 25,
-            providerCount: 0
+            paginationSize: 30,
+            providerCount: 0,
+            selectedPINCode: []
         }
     }
 
@@ -58,7 +56,8 @@ export class LocationFinder extends React.Component {
         fetch("/providers/filters/State"
             + "?states=" + JSON.stringify(this.state.filterquery.state)
             + "&cities=" + JSON.stringify(this.state.filterquery.city)
-            + "&pincodes=" + JSON.stringify(this.state.filterquery.pincode))
+            + "&pincodes=" + JSON.stringify(this.state.filterquery.pincode)
+            + "&namesearch=" + this.state.selectedNameFilter)
             .then(res => res.json())
             .then(
                 (result) => {
@@ -79,7 +78,8 @@ export class LocationFinder extends React.Component {
         fetch("/providers/filters/City"
             + "?states=" + JSON.stringify(this.state.filterquery.state)
             + "&cities=" + JSON.stringify(this.state.filterquery.city)
-            + "&pincodes=" + JSON.stringify(this.state.filterquery.pincode))
+            + "&pincodes=" + JSON.stringify(this.state.filterquery.pincode)
+            + "&namesearch=" + this.state.selectedNameFilter)
             .then(res => res.json())
             .then(
                 (result) => {
@@ -100,7 +100,8 @@ export class LocationFinder extends React.Component {
         fetch("/providers/filters/PINCode"
             + "?states=" + JSON.stringify(this.state.filterquery.state)
             + "&cities=" + JSON.stringify(this.state.filterquery.city)
-            + "&pincodes=" + JSON.stringify(this.state.filterquery.pincode))
+            + "&pincodes=" + JSON.stringify(this.state.filterquery.pincode)
+            + "&namesearch=" + this.state.selectedNameFilter)
             .then(res => res.json())
             .then(
                 (result) => {
@@ -122,7 +123,8 @@ export class LocationFinder extends React.Component {
             + "?start=0" + this.state.paginationStart + "&size=" + this.state.paginationSize
             + "&states=" + JSON.stringify(this.state.filterquery.state)
             + "&cities=" + JSON.stringify(this.state.filterquery.city)
-            + "&pincodes=" + JSON.stringify(this.state.filterquery.pincode))
+            + "&pincodes=" + JSON.stringify(this.state.filterquery.pincode)
+            + "&namesearch=" + this.state.selectedNameFilter)
             .then(res => res.json())
             .then(
                 (result) => {
@@ -149,7 +151,8 @@ export class LocationFinder extends React.Component {
         fetch("/providers/count"
             + "?states=" + JSON.stringify(this.state.filterquery.state)
             + "&cities=" + JSON.stringify(this.state.filterquery.city)
-            + "&pincodes=" + JSON.stringify(this.state.filterquery.pincode))
+            + "&pincodes=" + JSON.stringify(this.state.filterquery.pincode)
+            + "&namesearch=" + this.state.selectedNameFilter)
             .then(res => res.json())
             .then(
                 (result) => {
@@ -165,30 +168,6 @@ export class LocationFinder extends React.Component {
                 }
             )
     }
-
-    /*
-    * "AlternativeContact": "string",
-    "AvailableDays": "string",
-    "AverageMealPriceFor2People": "string",
-    "City": "string",
-    "City_user": "string",
-    "City_user_entered_old": "string",
-    "Comments": "string",
-    "DeliveryAreas": "string",
-    "DeliveryOptions": "string",
-    "DeliveryRadius": "string",
-    "EmailAddress": "string",
-    "EmailAddress_1": "string",
-    "LinkToMenu/website(ifAvailable)": "string",
-    "MealOptions": "string",
-    "MenuOptions": "string",
-    "Name": "string",
-    "PINCode": "string",
-    "PaymentOptions": "string",
-    "Pre-OrderRequirements": "string",
-    "PrimaryContactNumberToPlaceOrder": "string",
-    "ServiceType": "string",
-    * */
 
     resetProviders(){
         this.state.paginationStart = 0;
@@ -213,15 +192,13 @@ export class LocationFinder extends React.Component {
     }
 
     stateOnChange(selectedValue){
-        let statesSelected = selectedValue.map(function(values, index){
-            return values.label;
-        });
+        let statesSelected = [selectedValue.label];
         let filterquery = this.state.filterquery;
         if(!filterquery){
             filterquery = {city:[], state:[], pincode:[]}
         }
         filterquery.state = statesSelected;
-        this.state.selectedState = selectedValue? selectedValue : [];
+        this.state.selectedState = selectedValue? selectedValue : null;
         this.state.filterquery = filterquery;
         this.state.elementChange = STATE_FILTER;
         this.resetProviders();
@@ -250,59 +227,20 @@ export class LocationFinder extends React.Component {
         let dropdownItems = [];
         if(dbArray){
             dropdownItems = dbArray.map(function(dbItem, index){
-                let dropDownItem = {
+                return {
                     value: index+1,
                     label: dbItem._id,
                     totaldocs: dbItem.totaldocs
                 };
-                return dropDownItem;
             });
         }
         return dropdownItems;
     }
 
     createCards(providers){
-        // let providers = this.state.providers.data;
-        let cards = providers.map(function(provider, index){
-            return (
-                <div className="providercard" id={"providercard-" + index}>
-                    <div className="providercarddetails-table">
-                        <div className="providercarddetail card-name">
-                            <div className="provider-key">Name: </div><div className="provider-value">{provider.Name}</div>
-                        </div>
-                        <div className="providercarddetail card-contact">
-                            <div className="provider-key">Contact: </div><div className="provider-value"><a href={"tel:"+provider.PrimaryContactNumberToPlaceOrder}>{provider.PrimaryContactNumberToPlaceOrder}</a></div>
-                        </div>
-                        <div className="providercarddetail card-contact">
-                            <div className="provider-key">PIN Code: </div><div className="provider-value">{provider.PINCode}</div>
-                        </div>
-                        <div className="providercarddetail card-city">
-                            <div className="provider-key">City: </div><div className="provider-value">{provider.City}</div>
-                        </div>
-                        <div className="providercarddetail card-state">
-                            <div className="provider-key">State: </div><div className="provider-value">{provider.State}</div>
-                        </div>
-                        <div className="providercarddetail card-deliveryoption">
-                            <div className="provider-key">DeliveryOptions: </div><div className="provider-value">{provider.DeliveryOptions}</div>
-                        </div>
-                        <div className="providercarddetail card-deliveryareas">
-                            <div className="provider-key">DeliveryAreas: </div><div className="provider-value">{provider.DeliveryAreas}</div>
-                        </div>
-                        <div className="providercarddetail card-mealoptions">
-                            <div className="provider-key">MealOptions: </div><div className="provider-value">{provider.MealOptions}</div>
-                        </div>
-                    </div>
-                    <div className="providercontact">
-                            <span>
-                                <a href={"tel:"+provider.PrimaryContactNumberToPlaceOrder} className="contacticons"><i className="fa fa-phone" aria-hidden="true"/></a>
-                            </span>
-                        <span>
-                                <a href={"https://api.whatsapp.com/send?phone=91"+ provider.PrimaryContactNumberToPlaceOrder + "&text=" + whatsappText + "&&app_absent=1"}  className="contacticons"><i className="fa fa-whatsapp" aria-hidden="true"/></a>
-                            </span>
-                    </div>
-                </div>)
+        return providers.map(function(provider, index){
+            return (<ProviderCard index={index} provider={provider} />);
         });
-        return cards;
     }
 
     loadMore(){
@@ -311,6 +249,19 @@ export class LocationFinder extends React.Component {
         pagination += increment;
         this.state.paginationStart = pagination;
         this.fetchProviders();
+    }
+
+    onNameChange(event){
+        console.log(event);
+        if(event.key === 'Enter'){
+            this.triggerNameChange(event.target.value);
+        }
+    }
+
+    triggerNameChange(event){
+        this.state.selectedNameFilter = event.target.value;
+        this.resetProviders();
+        this.fetchData();
     }
 
     render() {
@@ -333,10 +284,22 @@ export class LocationFinder extends React.Component {
                 cards = this.createCards(this.state.providers.data);
             }
         }
-        let shouldLoadMore = this.state.providers.data.length == this.state.providerCount;
+        let countFetched = this.state.providers.data.length;
+        let shouldLoadMore = countFetched === this.state.providerCount;
         return (
             <div id="locationfinder">
                 <div id="providerfilters">
+                    <div id="providerfilter-name" className="providerfilterdiv">
+                        <span className="providerfilterlabel">Name</span>
+                        <span className="providerfilterdropdown">
+                            <input
+                                onBlur={this.triggerNameChange.bind(this)}
+                                id="name-filter"
+                                className="filter-inputbox"
+                                type="text"
+                                placeholder="Enter Name"/>
+                        </span>
+                    </div>
                     <div id="providerfilter-state" className="providerfilterdiv">
                         <span className="providerfilterlabel">State</span>
                         <span className="providerfilterdropdown">
@@ -345,7 +308,7 @@ export class LocationFinder extends React.Component {
                                 onChange={this.stateOnChange.bind(this)}
                                 value={selectedState}
                                 clearable={true}
-                                multi={true}
+                                multi={false}
                                 searchable={true}
                             />
                         </span>

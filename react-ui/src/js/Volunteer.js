@@ -13,10 +13,10 @@ export class Volunteer extends React.Component {
                     </div>
                 </section>
                 <section>
-                    <div>
-                        <span></span>
-                        <span></span>
-                    </div>
+                    <iframe  className="registration-form"
+                        src="https://docs.google.com/forms/d/e/1FAIpQLScbviAtC4OZevq0bR65Owewf7JqQJC61aQjyiqv0ktjGpESWQ/viewform?embedded=true"
+                        width="640" height="1146" frameBorder="0" marginHeight="0" marginWidth="0">Loading…
+                    </iframe>
                 </section>
                 <SocialMedia/>
             </div>

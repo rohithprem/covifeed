@@ -1,0 +1,10 @@
+iframe.registration-form {
+    height: 4300px;
+}
+
+@media only screen and (max-width: 768px) {
+    iframe.registration-form {
+        max-width: 450px;
+    }
+
+}

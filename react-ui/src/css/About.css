@@ -1,0 +1,14 @@
+img#about-logo {
+    width: 400px;
+}
+
+.bold-red-text{
+    color: #d8214d;
+    font-weight: bold;
+}
+
+@media only screen and (min-width: 768px) {
+    img#about-logo {
+        width: 800px;
+    }
+}
