@@ -1,0 +1,73 @@
+providercarddetails-table{
+    display: table;
+}
+
+.providercarddetail {
+    display: table-row;
+}
+
+.providercontact{
+    /*border-top: 1px solid #ccc*/
+}
+
+
+.providercard{
+    background: #fff;
+    margin: 10px;
+    padding: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: background 0.3s;
+    cursor: pointer;
+    width: 270px;
+    max-height: 440px;
+}
+
+.provider-key, .provider-value{
+    display: table-cell;
+    text-align: left;
+    padding: 6px;
+    max-width: 135px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+div.providercontact{
+    display: flex;
+    justify-content: flex-end;
+}
+
+@media only screen and (min-width: 768px) {
+
+    .providercard{
+        width: 440px;
+    }
+
+    .provider-key, .provider-value{
+        max-width: 310px;
+    }
+
+}
+
+i.fa{
+    padding: 0px;
+    margin: 0px;
+    transition: color 1s;
+}
+
+i.fa.fa-phone{
+    color: #002aff;
+}
+
+i.fa.fa-phone:hover{
+    color: #6982fc;
+}
+
+i.fa.fa-whatsapp{
+    color: green;
+}
+
+i.fa.fa-whatsapp:hover{
+    color: #5ccb5c;
+}

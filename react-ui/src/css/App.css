@@ -1,5 +1,5 @@
 body{
-  background-color: #fffcf5;
+  background-color: white;
   margin: 0;
   font-size: 13pt;
   width: 100%;
@@ -95,8 +95,13 @@ nav li a.selected::after{
 }
 
 #page{
-  width: 80%;
   margin: 0 auto;
+}
+
+@media only screen and (min-width: 768px) {
+  #page {
+    width: 80%;
+  }
 }
 
 div .halfwidth{

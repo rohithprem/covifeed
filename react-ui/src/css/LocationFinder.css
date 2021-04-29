@@ -1,3 +1,7 @@
+#locationfinder{
+    background-color: #f1f1f1;
+}
+
 #providerslist{
     display: -webkit-flex;
     display: flex;
@@ -6,18 +10,7 @@
     -webkit-flex-wrap: wrap;
     flex-wrap: wrap;
     justify-content: center;
-}
-
-providercarddetails-table{
-    display: table;
-}
-
-.providercarddetail {
-    display: table-row;
-}
-
-.providercontact{
-    /*display: flex;*/
+    min-height: 1200px;
 }
 
 .providerfilterdiv {
@@ -45,76 +38,6 @@ div#providerfilters {
 
 span.providerfilterlabel {
     margin: 0 20px 0 20px;
-}
-
-.providercard{
-    background: #fff;
-    margin: 10px;
-    padding: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    transition: background 1s;
-    cursor: pointer;
-}
-
-.provider-key, .provider-value{
-    display: table-cell;
-    text-align: left;
-    padding: 6px;
-    max-width: 490px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-div.providercontact{
-    display: flex;
-    justify-content: flex-end;
-}
-
-i.fa{
-    padding: 0px;
-    margin: 0px;
-    transition: color 1s;
-}
-
-i.fa.fa-phone{
-    color: #002aff;
-}
-
-i.fa.fa-phone:hover{
-    color: #6982fc;
-}
-
-i.fa.fa-whatsapp{
-    color: green;
-}
-
-i.fa.fa-whatsapp:hover{
-    color: #5ccb5c;
-}
-
-@media only screen and (min-width: 768px) {
-
-    .providercard{
-        width: 660px;
-    }
-
-    .provider-key, .provider-value{
-        max-width: 490px;
-    }
-
-}
-
-@media only screen and (max-width: 768px) {
-    .providercard{
-        width: 330px;
-    }
-
-    .provider-key, .provider-value{
-        max-width: 180px;
-    }
-
 }
 
 #providerslist-pagination-holder{

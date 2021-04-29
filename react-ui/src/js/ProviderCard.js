@@ -1,4 +1,5 @@
 import React from "react";
+import '../css/ProviderCard.css'
 
 const whatsappText = encodeURI(
     "Hello 👋,\nI found your service through covifeedindia.com.\nI'd love to place an order.\n🥐🍞🥖🧋🍴🍎🫐🥭🥝"
@@ -37,6 +38,9 @@ export class ProviderCard extends React.Component {
                     </div>
                     <div className="providercarddetail card-deliveryoption">
                         <div className="provider-key">DeliveryOptions: </div><div className="provider-value">{provider.DeliveryOptions}</div>
+                    </div>
+                    <div className="providercarddetail card-menuoptions">
+                        <div className="provider-key">Menu Options: </div><div className="provider-value">{provider.MenuOptions}</div>
                     </div>
                     <div className="providercarddetail card-mealoptions">
                         <div className="provider-key">MealOptions: </div><div className="provider-value">{provider.MealOptions}</div>

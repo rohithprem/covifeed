@@ -13,6 +13,7 @@ import About from './About.js'
 import Home from './Home.js'
 import Volunteer from './Volunteer.js'
 import Register from './Register.js'
+import Login from './Login.js'
 import React from 'react';
 
 function App() {
@@ -61,6 +62,9 @@ function App() {
                         </Route>
                         <Route path="/about">
                             <About />
+                        </Route>
+                        <Route path="/login">
+                            <Login />
                         </Route>
                     </Switch>
                 </div>

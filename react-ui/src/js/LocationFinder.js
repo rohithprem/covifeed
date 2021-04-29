@@ -5,10 +5,26 @@ import ProviderCard from "./ProviderCard";
 import 'react-select/dist/react-select.css'
 import 'react-virtualized/styles.css'
 import 'react-virtualized-select/styles.css'
+import {FormControlLabel, Switch} from '@material-ui/core'
+import {green} from '@material-ui/core/colors'
+import { withStyles } from '@material-ui/core/styles';
 
 const STATE_FILTER = "STATE_FILTER"
 const CITY_FILTER = "CITY_FILTER"
 const PINCODE_FILTER = "PINCODE_FILTER"
+
+const PurpleSwitch = withStyles({
+    switchBase: {
+        '&$checked': {
+            color: green[500],
+        },
+        '&$checked + $track': {
+            backgroundColor: green[500],
+        },
+    },
+    checked: {},
+    track: {},
+})(Switch);
 
 export class LocationFinder extends React.Component {
 
@@ -28,7 +44,8 @@ export class LocationFinder extends React.Component {
             paginationStart: 0,
             paginationSize: 30,
             providerCount: 0,
-            selectedPINCode: []
+            selectedPINCode: [],
+            isVegOnly: false
         }
     }
 
@@ -38,7 +55,6 @@ export class LocationFinder extends React.Component {
     }
 
     fetchData(){
-        console.log(JSON.stringify(this.state));
         this.fetchProviders();
         if(this.state.elementChange !== STATE_FILTER){
             this.fetchStateAggs();
@@ -52,12 +68,16 @@ export class LocationFinder extends React.Component {
         this.fetchCount();
     }
 
-    fetchStateAggs(){
-        fetch("/providers/filters/State"
-            + "?states=" + JSON.stringify(this.state.filterquery.state)
+    fetchDataQueryParams(){
+        return "states=" + JSON.stringify(this.state.filterquery.state)
             + "&cities=" + JSON.stringify(this.state.filterquery.city)
             + "&pincodes=" + JSON.stringify(this.state.filterquery.pincode)
-            + "&namesearch=" + this.state.selectedNameFilter)
+            + "&namesearch=" + this.state.selectedNameFilter
+            + "&isvegonly=" + this.state.isVegOnly;
+    }
+
+    fetchStateAggs(){
+        fetch("/providers/filters/State?" + this.fetchDataQueryParams())
             .then(res => res.json())
             .then(
                 (result) => {
@@ -75,11 +95,7 @@ export class LocationFinder extends React.Component {
     }
 
     fetchCityAggs(){
-        fetch("/providers/filters/City"
-            + "?states=" + JSON.stringify(this.state.filterquery.state)
-            + "&cities=" + JSON.stringify(this.state.filterquery.city)
-            + "&pincodes=" + JSON.stringify(this.state.filterquery.pincode)
-            + "&namesearch=" + this.state.selectedNameFilter)
+        fetch("/providers/filters/City?" + this.fetchDataQueryParams())
             .then(res => res.json())
             .then(
                 (result) => {
@@ -97,11 +113,7 @@ export class LocationFinder extends React.Component {
     }
 
     fetchPINCodeAggs(){
-        fetch("/providers/filters/PINCode"
-            + "?states=" + JSON.stringify(this.state.filterquery.state)
-            + "&cities=" + JSON.stringify(this.state.filterquery.city)
-            + "&pincodes=" + JSON.stringify(this.state.filterquery.pincode)
-            + "&namesearch=" + this.state.selectedNameFilter)
+        fetch("/providers/filters/PINCode?" + this.fetchDataQueryParams())
             .then(res => res.json())
             .then(
                 (result) => {
@@ -121,10 +133,7 @@ export class LocationFinder extends React.Component {
     fetchProviders(){
         fetch("/providers/"
             + "?start=0" + this.state.paginationStart + "&size=" + this.state.paginationSize
-            + "&states=" + JSON.stringify(this.state.filterquery.state)
-            + "&cities=" + JSON.stringify(this.state.filterquery.city)
-            + "&pincodes=" + JSON.stringify(this.state.filterquery.pincode)
-            + "&namesearch=" + this.state.selectedNameFilter)
+            + "&" + this.fetchDataQueryParams())
             .then(res => res.json())
             .then(
                 (result) => {
@@ -148,11 +157,7 @@ export class LocationFinder extends React.Component {
     }
 
     fetchCount(){
-        fetch("/providers/count"
-            + "?states=" + JSON.stringify(this.state.filterquery.state)
-            + "&cities=" + JSON.stringify(this.state.filterquery.city)
-            + "&pincodes=" + JSON.stringify(this.state.filterquery.pincode)
-            + "&namesearch=" + this.state.selectedNameFilter)
+        fetch("/providers/count?" + this.fetchDataQueryParams())
             .then(res => res.json())
             .then(
                 (result) => {
@@ -192,7 +197,7 @@ export class LocationFinder extends React.Component {
     }
 
     stateOnChange(selectedValue){
-        let statesSelected = [selectedValue.label];
+        let statesSelected = selectedValue ? [selectedValue.label] : [];
         let filterquery = this.state.filterquery;
         if(!filterquery){
             filterquery = {city:[], state:[], pincode:[]}
@@ -260,6 +265,13 @@ export class LocationFinder extends React.Component {
 
     triggerNameChange(event){
         this.state.selectedNameFilter = event.target.value;
+        this.resetProviders();
+        this.fetchData();
+    }
+
+    handleMealOptionToggle(selectedValue){
+        console.log(selectedValue);
+        this.state.isVegOnly= !this.state.isVegOnly;
         this.resetProviders();
         this.fetchData();
     }
@@ -339,6 +351,20 @@ export class LocationFinder extends React.Component {
                             />
                         </span>
                     </div>
+                    <div id="providerfilter-vegnonveg" className="providerfilterdiv">
+                        <FormControlLabel
+                            control={
+                                <PurpleSwitch
+                                    checked={this.state.isVegOnly}
+                                    onChange={this.handleMealOptionToggle.bind(this)}
+                                    name="Veg Only"
+                                    color="green"
+                                />
+                            }
+                            label="Veg Only"
+                        />
+                    </div>
+
                     <div id="providerfilter-count">
                         <span id="providerfilterlabel-count" className="providerfilterlabel">You have found</span>
                         <span id="providerfilter-count">{this.state.providerCount} Meal Providers</span>

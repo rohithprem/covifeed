@@ -1,67 +1,13 @@
-const mongoose = require('mongoose');
 const express = require("express");
 const router = express.Router();
-let foodProvidersModel = require("../models/Models");
-
-/*const connection = mongoose.createConnection(
-    'mongodb+srv://cluster0.vgqja.mongodb.net/myFirstDatabase?authSource=%24external&authMechanism=MONGODB-X509&retryWrites=true&w=majority',
-    {
-        dbName:"covifeed",
-        ssl: true,
-        sslValidate: false
-        /!*sslCA: require('fs').readFileSync(`${__dirname}/../resources/X509-cert-6003728960027512154.pem`),
-        useUnifiedTopology: true*!/
-    }
-);*/
-
-const connection = mongoose.createConnection(
-    'mongodb+srv://covifeed:AgQM4WYiIzx4IS74@cluster0.vgqja.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
-    {
-        dbName:"covifeed"
-    }
-);
+const {connection} = require('./MongoDB')
+let foodProvidersModel = require("../models/FoodProvider");
 
 const Provider = connection.model('Provider', foodProvidersModel);
-/*console.log("TEST");
-Provider.find({"EmailAddress": "deepti.official@gmail.com"}).exec(showData);
-
-function showData(err, res){
-    console.log("Result:" + res)
-    console.log("Error:" + err)
-}*/
-
-
-router.get("/", async (req, res) => {
-    let size = Number(req.query.size);
-    let start = Number(req.query.start);
-    let states = JSON.parse(req.query.states);
-    let cities = JSON.parse(req.query.cities);
-    let pincodes = JSON.parse(req.query.pincodes);
-    let nameSearch = req.query.namesearch;
-    try {
-        let filterQuery = buildFilterQuery(states,cities, pincodes, nameSearch);
-        console.log(filterQuery);
-        let documents = await Provider.find(filterQuery).skip(start).limit(size).exec();
-        res.status(200).json({
-            data: documents
-        });
-    } catch (err) {
-        console.log(err);
-        res.status(400).json({
-            message: "Some error occured",
-            err
-        });
-    }
-});
 
 router.get("/count", async (req, res) => {
-    let size = Number(req.query.size);
-    let start = Number(req.query.start);
-    let states = JSON.parse(req.query.states);
-    let cities = JSON.parse(req.query.cities);
-    let pincodes = JSON.parse(req.query.pincodes);
     try {
-        let filterQuery = buildFilterQuery(states,cities, pincodes);
+        let filterQuery = buildFilterQuery(req.query);
         let count = await Provider.count(filterQuery).exec();
         console.log("Count: " + count);
         res.status(200).json({
@@ -77,12 +23,9 @@ router.get("/count", async (req, res) => {
 });
 
 router.get("/filters/:filterField", async (req, res) => {
-    let states = JSON.parse(req.query.states);
-    let cities = JSON.parse(req.query.cities);
-    let pincodes = JSON.parse(req.query.pincodes);
     let filterField = req.params.filterField;
     try {
-        let filterQuery = buildFilterQuery(states,cities, pincodes);
+        let filterQuery = buildFilterQuery(req.query);
         let aggregateQuery = buildAggregateQuery(filterField, filterQuery);
         let documents = await Provider.aggregate(aggregateQuery).exec();
         res.status(200).json({
@@ -97,7 +40,31 @@ router.get("/filters/:filterField", async (req, res) => {
     }
 })
 
-function buildFilterQuery (states, cities, pincodes, nameSearch) {
+router.get("/", async (req, res) => {
+    let size = Number(req.query.size);
+    let start = Number(req.query.start);
+    try {
+        let filterQuery = buildFilterQuery(req.query);
+        console.log(filterQuery);
+        let documents = await Provider.find(filterQuery).skip(start).limit(size).exec();
+        res.status(200).json({
+            data: documents
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({
+            message: "Some error occured",
+            err
+        });
+    }
+});
+
+function buildFilterQuery (query) {
+    let states = JSON.parse(query.states);
+    let cities = JSON.parse(query.cities);
+    let pincodes = JSON.parse(query.pincodes);
+    let nameSearch = query.namesearch;
+    let isVegOnly = JSON.parse(query.isvegonly);
     let filterQuery = {};
     if(states && states.length > 0){
         filterQuery.State = {$in:states}
@@ -110,6 +77,9 @@ function buildFilterQuery (states, cities, pincodes, nameSearch) {
     }
     if(nameSearch && nameSearch.length){
         filterQuery.Name = {$regex : ".*" + nameSearch + ".*"};
+    }
+    if(isVegOnly){
+        filterQuery.MenuOptions = "Veg Only";
     }
     return filterQuery;
 }
