@@ -38,7 +38,23 @@ router.get("/filters/:filterField", async (req, res) => {
             err
         });
     }
-})
+});
+
+router.get("/:number", async (req, res) => {
+    let number = req.params.number;
+    try {
+        let document = await Provider.findOne({"PrimaryContactNumberToPlaceOrder":number}).exec();
+        res.status(200).json({
+            data: document
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({
+            message: "Some error occured",
+            err
+        });
+    }
+});
 
 router.get("/", async (req, res) => {
     let size = Number(req.query.size);

@@ -11,12 +11,16 @@ export class ProviderCard extends React.Component {
         super(props);
     }
 
+    onClickProvider(contactNumber, event){
+        window.open("/foodprovider/" + contactNumber, "_self");
+    }
+
     render(){
         let index = this.props.index;
         let provider = this.props.provider;
 
         return (
-            <div className="providercard" id={"providercard-" + index}>
+            <div onClick={this.onClickProvider.bind(this, provider.PrimaryContactNumberToPlaceOrder)} className="providercard" id={"providercard-" + index}>
                 <div className="providercarddetails-table">
                     <div className="providercarddetail card-name">
                         <div className="provider-key">Name: </div><div className="provider-value">{provider.Name}</div>
@@ -31,10 +35,7 @@ export class ProviderCard extends React.Component {
                         <div className="provider-key">DeliveryAreas: </div><div className="provider-value">{provider.DeliveryAreas}</div>
                     </div>
                     <div className="providercarddetail card-city">
-                        <div className="provider-key">City: </div><div className="provider-value">{provider.City}</div>
-                    </div>
-                    <div className="providercarddetail card-state">
-                        <div className="provider-key">State: </div><div className="provider-value">{provider.State}</div>
+                        <div className="provider-key">Location: </div><div className="provider-value">{provider.City + ", " + provider.State}</div>
                     </div>
                     <div className="providercarddetail card-deliveryoption">
                         <div className="provider-key">DeliveryOptions: </div><div className="provider-value">{provider.DeliveryOptions}</div>

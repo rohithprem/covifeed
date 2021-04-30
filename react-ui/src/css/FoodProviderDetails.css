@@ -1,0 +1,92 @@
+.provider-screen-title{
+    background-color: #d9214d;
+    color: #fff;
+    padding: 25px;
+    margin: 0 auto;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    max-width: 400px;
+}
+
+.provider-screen-title>div.titleheader{
+    font-weight: bold;
+}
+
+.provider-screen-title>div.titleheader{
+    font-weight: bold;
+}
+
+.provider-subheader {
+    color: #f7bb42;
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.provider-screen-details {
+    /*min-width: 400px;*/
+    margin: 5px;
+    background-color: #ececec;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+@media only screen and (min-width: 768px) {
+    .provider-screen-details {
+        max-width: 100%;
+    }
+
+    .provider-screen-title, .provider-screen-details{
+        margin: 0 auto;
+    }
+}
+
+.provider-screen-details-table{
+    display: table;
+}
+
+.provider-detail-item{
+    display: table-row;
+}
+
+.provider-detail-item>.provider-key, .provider-detail-item>.provider-value{
+    display: table-cell;
+    text-align: left;
+    padding: 6px;
+}
+
+.provider-screen-contact>span>a.contacticons>i {
+    font-size: 45px;
+    color: white;
+    padding: 5px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.provider-screen-contact>span>a.contacticons>i.fa-phone{
+    background-color: #002aff;
+}
+
+.provider-screen-contact>span>a.contacticons>i.fa-phone:hover{
+    background-color: #001a9c;
+    color: white;
+}
+
+.provider-screen-contact>span>a.contacticons>i.fa-whatsapp{
+    background-color: limegreen;
+}
+
+.provider-screen-contact>span>a.contacticons>i.fa-whatsapp:hover{
+    background-color: #1f7f1f;
+    color: white;
+}
+
+div.provider-screen-contact{
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: flex-end;
+    justify-content: center;
+}
+
+span.contacticon{
+    margin: 0 10px 0 10px;
+}

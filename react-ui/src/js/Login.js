@@ -6,7 +6,7 @@ import '../css/Login.css'
 export class Login extends React.Component {
 
     checkPhoneNumberPasswordExists(){
-        
+
     }
 
     onUsernameBlur (event){
@@ -30,7 +30,6 @@ export class Login extends React.Component {
                             <span className="loginfieldlabel">Phone Number</span>
                             <span>
                                 <input
-                                    onBlur={}
                                     id="login-username"
                                     className="login-inputbox"
                                     type="text"

@@ -14,6 +14,7 @@ import Home from './Home.js'
 import Volunteer from './Volunteer.js'
 import Register from './Register.js'
 import Login from './Login.js'
+import FoodProviderDetails from "./FoodProviderDetails";
 import React from 'react';
 
 function App() {
@@ -66,6 +67,7 @@ function App() {
                         <Route path="/login">
                             <Login />
                         </Route>
+                        <Route exact path="/foodprovider/:providerid" component={FoodProviderDetails}/>
                     </Switch>
                 </div>
             </div>

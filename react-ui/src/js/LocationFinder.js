@@ -8,6 +8,7 @@ import 'react-virtualized-select/styles.css'
 import {FormControlLabel, Switch} from '@material-ui/core'
 import {green} from '@material-ui/core/colors'
 import { withStyles } from '@material-ui/core/styles';
+import {Link} from 'react-router-dom'
 
 const STATE_FILTER = "STATE_FILTER"
 const CITY_FILTER = "CITY_FILTER"
@@ -242,6 +243,11 @@ export class LocationFinder extends React.Component {
         return dropdownItems;
     }
 
+    /*
+    <Link to={'/foodprovider/' + provider.PrimaryContactNumberToPlaceOrder}>
+                    <ProviderCard index={index} provider={provider} />
+                </Link>);
+     */
     createCards(providers){
         return providers.map(function(provider, index){
             return (<ProviderCard index={index} provider={provider} />);
