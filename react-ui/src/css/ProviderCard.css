@@ -1,5 +1,6 @@
-providercarddetails-table{
+.providercarddetails-table{
     display: table;
+    cursor: pointer;
 }
 
 .providercarddetail {
@@ -13,7 +14,6 @@ providercarddetails-table{
     border: 1px solid #ccc;
     border-radius: 4px;
     transition: background 0.3s;
-    cursor: pointer;
     width: 87%;
     max-height: 440px;
 }

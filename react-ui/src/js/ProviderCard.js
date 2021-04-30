@@ -20,8 +20,8 @@ export class ProviderCard extends React.Component {
         let provider = this.props.provider;
 
         return (
-            <div onClick={this.onClickProvider.bind(this, provider.PrimaryContactNumberToPlaceOrder)} className="providercard" id={"providercard-" + index}>
-                <div className="providercarddetails-table">
+            <div className="providercard" id={"providercard-" + index}>
+                <div onClick={this.onClickProvider.bind(this, provider.PrimaryContactNumberToPlaceOrder)}  className="providercarddetails-table">
                     <div className="providercarddetail card-name">
                         <div className="provider-key">Name: </div><div className="provider-value">{provider.Name}</div>
                     </div>

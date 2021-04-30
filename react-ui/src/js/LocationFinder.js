@@ -8,13 +8,12 @@ import 'react-virtualized-select/styles.css'
 import {FormControlLabel, Switch} from '@material-ui/core'
 import {green} from '@material-ui/core/colors'
 import { withStyles } from '@material-ui/core/styles';
-import {Link} from 'react-router-dom'
 
 const STATE_FILTER = "STATE_FILTER"
 const CITY_FILTER = "CITY_FILTER"
 const PINCODE_FILTER = "PINCODE_FILTER"
 
-const PurpleSwitch = withStyles({
+const GreenSwitch = withStyles({
     switchBase: {
         '&$checked': {
             color: green[500],
@@ -43,7 +42,7 @@ export class LocationFinder extends React.Component {
             filterquery: {city:[], state: [], pincode: []},
             elementChange: null,
             paginationStart: 0,
-            paginationSize: 30,
+            paginationSize: 18,
             providerCount: 0,
             selectedPINCode: [],
             isVegOnly: false
@@ -243,11 +242,6 @@ export class LocationFinder extends React.Component {
         return dropdownItems;
     }
 
-    /*
-    <Link to={'/foodprovider/' + provider.PrimaryContactNumberToPlaceOrder}>
-                    <ProviderCard index={index} provider={provider} />
-                </Link>);
-     */
     createCards(providers){
         return providers.map(function(provider, index){
             return (<ProviderCard index={index} provider={provider} />);
@@ -282,34 +276,25 @@ export class LocationFinder extends React.Component {
         this.fetchData();
     }
 
-    render() {
-        console.log("RENDER");
-        let cards = [];
+    getFilters(){
         let selectedCity = null
         let selectedState = null
         let selectedPINCode = null;
         let cityDropDownList = [];
         let stateDropDownList = [];
         let pinCodeDropDownList = [];
-        if(this.state){
+        if(this.state) {
             stateDropDownList = this.state.stateDropDown;
             cityDropDownList = this.state.cityDropDown;
             pinCodeDropDownList = this.state.pinCodeDropDown;
             selectedCity = this.state.selectedCity;
             selectedState = this.state.selectedState;
             selectedPINCode = this.state.selectedPINCode;
-            if(this.state.providers){
-                cards = this.createCards(this.state.providers.data);
-            }
         }
-        let countFetched = this.state.providers.data.length;
-        let shouldLoadMore = countFetched === this.state.providerCount;
-        return (
-            <div id="locationfinder">
-                <div id="providerfilters">
-                    <div id="providerfilter-name" className="providerfilterdiv">
-                        <span className="providerfilterlabel">Name</span>
-                        <span className="providerfilterdropdown">
+        let filters = [];
+        filters.push(<div id="providerfilter-name" className="providerfilterdiv">
+            <span className="providerfilterlabel">Name</span>
+            <span className="providerfilterdropdown">
                             <input
                                 onBlur={this.triggerNameChange.bind(this)}
                                 id="name-filter"
@@ -317,10 +302,10 @@ export class LocationFinder extends React.Component {
                                 type="text"
                                 placeholder="Enter Name"/>
                         </span>
-                    </div>
-                    <div id="providerfilter-state" className="providerfilterdiv">
-                        <span className="providerfilterlabel">State</span>
-                        <span className="providerfilterdropdown">
+        </div>);
+        filters.push(<div id="providerfilter-state" className="providerfilterdiv">
+            <span className="providerfilterlabel">State</span>
+            <span className="providerfilterdropdown">
                             <VirtualizedSelect
                                 options={stateDropDownList}
                                 onChange={this.stateOnChange.bind(this)}
@@ -330,10 +315,10 @@ export class LocationFinder extends React.Component {
                                 searchable={true}
                             />
                         </span>
-                    </div>
-                    <div id="providerfilter-city" className="providerfilterdiv">
-                        <span className="providerfilterlabel">City</span>
-                        <span className="providerfilterdropdown">
+        </div>);
+        filters.push(<div id="providerfilter-city" className="providerfilterdiv">
+                <span className="providerfilterlabel">City</span>
+                <span className="providerfilterdropdown">
                             <VirtualizedSelect
                                 options={cityDropDownList}
                                 onChange={this.cityOnChange.bind(this)}
@@ -343,10 +328,10 @@ export class LocationFinder extends React.Component {
                                 searchable={true}
                             />
                         </span>
-                    </div>
-                    <div id="providerfilter-pincode" className="providerfilterdiv">
-                        <span className="providerfilterlabel">PIN Code</span>
-                        <span className="providerfilterdropdown">
+            </div>);
+        filters.push(<div id="providerfilter-pincode" className="providerfilterdiv">
+                <span className="providerfilterlabel">PIN Code</span>
+                <span className="providerfilterdropdown">
                             <VirtualizedSelect
                                 options={pinCodeDropDownList}
                                 onChange={this.pinCodeOnChange.bind(this)}
@@ -356,21 +341,35 @@ export class LocationFinder extends React.Component {
                                 searchable={true}
                             />
                         </span>
-                    </div>
-                    <div id="providerfilter-vegnonveg" className="providerfilterdiv">
-                        <FormControlLabel
-                            control={
-                                <PurpleSwitch
-                                    checked={this.state.isVegOnly}
-                                    onChange={this.handleMealOptionToggle.bind(this)}
-                                    name="Veg Only"
-                                    color="green"
-                                />
-                            }
-                            label="Veg Only"
+            </div>);
+        filters.push(<div id="providerfilter-vegnonveg" className="providerfilterdiv">
+                <FormControlLabel
+                    control={
+                        <GreenSwitch
+                            checked={this.state.isVegOnly}
+                            onChange={this.handleMealOptionToggle.bind(this)}
+                            name="Veg Only"
+                            color="green"
                         />
-                    </div>
+                    }
+                    label="Veg Only"
+                />
+            </div>);
+        return filters;
+    }
 
+    render() {
+        let cards = [];
+        if(this.state.providers){
+            cards = this.createCards(this.state.providers.data);
+        }
+        let filters = this.getFilters();
+        let countFetched = this.state.providers.data.length;
+        let shouldLoadMore = countFetched === this.state.providerCount;
+        return (
+            <div id="locationfinder">
+                <div id="providerfilters">
+                    {filters}
                     <div id="providerfilter-count">
                         <span id="providerfilterlabel-count" className="providerfilterlabel">You have found</span>
                         <span id="providerfilter-count">{this.state.providerCount} Meal Providers</span>

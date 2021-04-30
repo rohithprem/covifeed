@@ -19,18 +19,18 @@ body{
 #navigationbar{
   width: 80%;
   margin: 0 auto;
-  color: white;
+  color: black;
+  /*
   font-weight: 700;
+  */
   font-size: 16pt;
   text-decoration: none;
 }
 
 header{
-  background: black;
-  color: white;
-  /*position: fixed;
-  top: 0;*/
-  width: 100%
+  background: #f1f1f1;
+  width: 100%;
+  border: 1px solid #ccc;
 }
 
 header::after{
@@ -52,12 +52,15 @@ header::after{
   justify-content: center;
   -webkit-align-items: center;
   align-items: center;
+  /*
   color: #fff;
+  */
 }
 
 #navigationelements{
   float: right;
   padding: 20px 0;
+  font-size: 19px;
 }
 
 nav ul{
@@ -82,6 +85,8 @@ nav li a:hover{
 }
 
 .titletext{
+  text-decoration: none;
+  color: white;
   font-size: 17pt;
 }
 
@@ -95,7 +100,7 @@ nav li a.selected::after{
   display: block;
   height: 3px;
   width: 100%;
-  background: rgba(255,213,79,1);
+  background: #d9214d;
   position: absolute;
   width: 100%;
 }
@@ -212,6 +217,7 @@ img#titlelogo {
 
 .navigationtitleelement {
   margin: 0 10px 0 0;
+  color: black;
 }
 
 div.buttons>a>i.fa{
