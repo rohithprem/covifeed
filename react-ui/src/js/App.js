@@ -5,7 +5,6 @@ import {
     Switch,
     Route,
     NavLink,
-    useLocation,
     Redirect
 } from "react-router-dom";
 
@@ -15,6 +14,7 @@ import Volunteer from './Volunteer.js'
 import Register from './Register.js'
 import Login from './Login.js'
 import FoodProviderDetails from "./FoodProviderDetails";
+import ProviderCentral from "./ProviderCentral";
 import React from 'react';
 
 function App() {
@@ -68,6 +68,7 @@ function App() {
                             <Login />
                         </Route>
                         <Route exact path="/foodprovider/:providerid" component={FoodProviderDetails}/>
+                        <Route path="/providercentral" component={ProviderCentral}/>
                     </Switch>
                 </div>
             </div>

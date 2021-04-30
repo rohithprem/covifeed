@@ -42,7 +42,7 @@ export class LocationFinder extends React.Component {
             filterquery: {city:[], state: [], pincode: []},
             elementChange: null,
             paginationStart: 0,
-            paginationSize: 18,
+            paginationSize: 16,
             providerCount: 0,
             selectedPINCode: [],
             isVegOnly: false

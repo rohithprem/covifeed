@@ -1,0 +1,34 @@
+.provider-central-details {
+    /*min-width: 400px;*/
+    margin: 5px;
+    background-color: #ececec;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+@media only screen and (min-width: 768px) {
+    .provider-central-details {
+        max-width: 100%;
+    }
+}
+
+.provider-screen-details-table{
+    display: table;
+}
+
+
+.provider-central-detail-item{
+    display: table-row;
+}
+
+.provider-central-detail-item>input.provider-value{
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.provider-central-detail-item>.provider-key,
+.provider-central-detail-item>.provider-value{
+    display: table-cell;
+    text-align: left;
+    padding: 6px;
+}

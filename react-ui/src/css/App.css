@@ -1,15 +1,9 @@
 body{
-  background-color: white;
+  background-color: #fff;
   margin: 0;
-  font-size: 13pt;
   width: 100%;
-  font-family: arial;
-}
-
-@media only screen and (max-width: 700px) {
-  body{
-    font-size: 10pt;
-  }
+  font-size: 14px;
+  color: #585858;
 }
 
 #root{
@@ -19,11 +13,11 @@ body{
 #navigationbar{
   width: 80%;
   margin: 0 auto;
-  color: black;
+  color: #585858;
   /*
   font-weight: 700;
   */
-  font-size: 16pt;
+  font-size: 18px;
   text-decoration: none;
 }
 
@@ -41,7 +35,7 @@ header::after{
 
 #navigationtitle{
   float: left;
-  padding: 12px 0 0 0;
+  padding: 10px 0 0 0;
   display: -webkit-flex;
   display: flex;
   -webkit-flex-direction: row;
@@ -60,7 +54,7 @@ header::after{
 #navigationelements{
   float: right;
   padding: 20px 0;
-  font-size: 19px;
+  font-size: 18px;
 }
 
 nav ul{
@@ -76,7 +70,7 @@ nav li{
 }
 
 nav li a{
-  color: inherit;
+  color: #585858;
   text-decoration: inherit;
 }
 
@@ -86,13 +80,12 @@ nav li a:hover{
 
 .titletext{
   text-decoration: none;
-  color: white;
-  font-size: 17pt;
+  font-size: 18px;
 }
 
 .titleheader{
   margin: 20px;
-  font-size: 25pt;
+  font-size: 18px;
 }
 
 nav li a.selected::after{
@@ -136,18 +129,23 @@ div .halfwidth{
   background-color: black !important
 }
 
-.button{
-  color: black;
+a.button{
+  color: #d4a333;
   text-decoration: none;
-  font-weight: bold;
 }
 
 .buttondiv{
-  background: rgba(255,213,79,1);
+  background: #fff;
   margin: 10px;
-  padding: 10px;
+  padding: 5px;
   border-radius: 4px;
-  border: 1px solid #ccc;
+  border: 2px solid #ffd54f;
+  cursor: pointer;
+  transition: background-color .3s;
+}
+
+.buttondiv:hover{
+  background: #f7d89557;
 }
 
 section{
@@ -217,11 +215,10 @@ img#titlelogo {
 
 .navigationtitleelement {
   margin: 0 10px 0 0;
-  color: black;
+  color: #585858;
 }
 
 div.buttons>a>i.fa{
-  color: white;
   color: white;
   height: 40px;
   border-radius: 4px;

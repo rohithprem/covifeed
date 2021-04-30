@@ -9,7 +9,6 @@ router.get("/count", async (req, res) => {
     try {
         let filterQuery = buildFilterQuery(req.query);
         let count = await Provider.count(filterQuery).exec();
-        console.log("Count: " + count);
         res.status(200).json({
             data: count
         });
@@ -39,6 +38,34 @@ router.get("/filters/:filterField", async (req, res) => {
         });
     }
 });
+
+router.get("/current", async (req,res) => {
+    // if(req.session.user && req.cookies.user_sid){
+        let loggedInUsername = req.session.user;
+        try{
+            let filter = {"PrimaryContactNumberToPlaceOrder":loggedInUsername ? loggedInUsername : "9871424973"};
+            let userDoc = await Provider.findOne(filter).exec();
+            console.log(userDoc);
+            if(userDoc != null){
+                res.status(200).json({
+                    data: userDoc
+                });
+            } else {
+                res.status(404).json({})
+            }
+        } catch(err){
+            console.log(err);
+            res.status(400).json({
+                message: "Some error occured",
+                err
+            });
+        }
+    /*} else {
+        res.status(401).json({
+            message: "Unauthorized"
+        });
+    }*/
+})
 
 router.get("/:number", async (req, res) => {
     let number = req.params.number;
