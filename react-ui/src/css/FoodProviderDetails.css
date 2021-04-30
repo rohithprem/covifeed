@@ -12,10 +12,6 @@
     font-weight: bold;
 }
 
-.provider-screen-title>div.titleheader{
-    font-weight: bold;
-}
-
 .provider-subheader {
     color: #f7bb42;
     font-weight: bold;
@@ -28,6 +24,8 @@
     background-color: #f1f1f1;
     border: 1px solid #ccc;
     border-radius: 4px;
+    padding: 38px;
+    font-weight: bold;
 }
 
 @media only screen and (min-width: 768px) {
@@ -42,6 +40,7 @@
 
 .provider-screen-details-table{
     display: table;
+    margin: 0 auto;
 }
 
 .provider-detail-item{
@@ -51,7 +50,8 @@
 .provider-detail-item>.provider-key, .provider-detail-item>.provider-value{
     display: table-cell;
     text-align: left;
-    padding: 6px;
+    /*padding: 6px;*/
+    padding: 10px 25px 10px 25px;
 }
 
 .provider-screen-contact>span>a.contacticons>i {

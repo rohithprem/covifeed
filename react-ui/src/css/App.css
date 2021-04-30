@@ -75,7 +75,7 @@ nav li a{
 }
 
 nav li a:hover{
-  color: #eac38d;
+  color: #f9c245;
 }
 
 .titletext{
@@ -109,13 +109,15 @@ nav li a.selected::after{
 }
 
 div .halfwidth{
-  max-width: 700px;
+  max-width: 550px;
   display: inline-block;
-  margin: 10px;
+  /*margin: 10px;*/
+  margin: 10px auto;
 }
 
 #covifeedfrontimage{
   width: 100%;
+  /*width: 500px;*/
   object-fit: cover;
   object-position: 20% 10%;
   overflow: hidden;
@@ -262,4 +264,9 @@ section#social-media-footer{
 
 div#social-media-title{
   font-weight: bold;
+}
+
+div.info-div{
+  display: flex;
+  flex-wrap: wrap;
 }

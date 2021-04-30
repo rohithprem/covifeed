@@ -20,21 +20,22 @@ export class Home extends React.Component{
                 </span>
                 </section>
                 <section>
-                    <div className="halfwidth">
-                        <img id="covifeedfrontimage" src={CovifeedFrontPage}/>
-                        <div id="frontintrotextdiv">
-                            <b>Home - food providers: tiffin services, home-chefs, volunteers, restaurants</b>
-                            providing Covid special meals, click to add your details quickly & make yourself searchable.
-                            <b>CoviFeedIndia is a volunteer initiative and does not charge anyone to use this website or to add their details</b>
+                    <div className="info-div">
+                        <div className="halfwidth">
+                            <img id="covifeedfrontimage" src={CovifeedFrontPage}/>
                         </div>
-                        <div className="buttondiv">
-                            <a id="foodproviderfrontbutton" className="button" href="/register-food-provider">
-                                <div>Food Providers - Register Here</div>
-                            </a>
+                        <div className="halfwidth">
+                            <div id="frontintrotextdiv">
+                                <b>Home - food providers: tiffin services, home-chefs, volunteers, restaurants</b>
+                                providing Covid special meals, click to add your details quickly & make yourself searchable.
+                                <b>CoviFeedIndia is a volunteer initiative and does not charge anyone to use this website or to add their details</b>
+                            </div>
+                            <div className="buttondiv">
+                                <a id="foodproviderfrontbutton" className="button" href="/register-food-provider">
+                                    <div>Food Providers - Register Here</div>
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                    <div className="halfwidth">
-                        <video id="covifeedfrontvideo" src={CovifeedIntroVideo} controls="controls"/>
                     </div>
                 </section>
                 <section>

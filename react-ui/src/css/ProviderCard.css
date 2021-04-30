@@ -22,7 +22,7 @@
     display: table-cell;
     text-align: left;
     padding: 6px;
-    max-width: 295px;
+    max-width: 190px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -40,7 +40,7 @@ div.providercontact{
 
 @media only screen and (min-width: 600px) {
     .providercard{
-        width: 320px;
+        width: 318px;
     }
 
     .providercarddetail>.provider-key, .providercarddetail>.provider-value{
