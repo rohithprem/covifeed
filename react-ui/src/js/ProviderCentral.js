@@ -4,35 +4,47 @@ import '../css/Login.css'
 import {Redirect} from "react-router-dom"
 import '../css/ProviderCentral.css'
 import Map from "mapmyindia-react";
-
+import Autocomplete from "./custom-lib/autocomplete";
+import GoogleMaps from "./custom-lib/autocomplete-location";
+import LocationInput from "./custom-lib/LocationInput";
 
 export class ProviderCentral extends React.Component {
 
+    radiusMapping = {
+        "Within 1 km": 1000,
+        "Within 4 km": 4000,
+        "Within 10km": 10000,
+        "Greater than 10km": 20000,
+        "Complete City": 40000
+    }
+
     constructor(props){
         super(props);
-        console.log("ProviderCentral");
+        // console.log("ProviderCentral");
         this.state = {
             isUnauthorized: false,
             provider:{},
             isMapEnabled: false,
             latitude: 0,
-            longitude: 0
+            longitude: 0,
+            radius: 1000
         }
     }
 
     componentDidMount() {
-        console.log("TEST");
+
+        // console.log("TEST");
         if ("geolocation" in navigator) {
-            console.log("Available");
+            // console.log("Available");
         } else {
-            console.log("Not Available");
+            // console.log("Not Available");
         }
         navigator.geolocation.getCurrentPosition((position) => {
-            console.log("Latitude is :", position.coords.latitude);
-            console.log("Longitude is :", position.coords.longitude);
+            // console.log("Latitude is :", position.coords.latitude);
+            // console.log("Longitude is :", position.coords.longitude);
             this.setState({latitude: position.coords.latitude, longitude: position.coords.longitude});
         });
-        console.log("Mount");
+        // console.log("Mount");
         fetch("/providers/current")
             .then((res) => {
                 if (res.ok) {
@@ -41,12 +53,13 @@ export class ProviderCentral extends React.Component {
                     if (res.status === 401) {
                         this.setState({isUnauthorized: true});
                     } else {
-                        console.log(res.json());
+                        // console.log(res.json());
                     }
                 }
             }).then((response) => {
-                console.log(response);
-                this.setState({provider: response.data});
+                // console.log(response);
+                let radius = response.data.DeliveryRadius ? this.radiusMapping[response.data.DeliveryRadius] : 1000;
+                this.setState({provider: response.data, radius: radius});
             })
     }
 
@@ -55,12 +68,23 @@ export class ProviderCentral extends React.Component {
         this.setState({isMapEnabled: !this.state.isMapEnabled})
     }
 
+    locationOnChange(location){
+        console.log("locationOnChange");
+        console.log(location);
+        this.setState({
+            latitude: location.lat,
+            longitude: location.lng,
+            isMapEnabled: false
+        })
+        
+    }
+
     render() {
         if(this.state.isUnauthorized){
             return (<Redirect to="/login" />);
         } else {
             let provider = this.state.provider;
-            console.log([this.state.latitude, this.state.longitude]);
+            // console.log([this.state.latitude, this.state.longitude]);
             let markers = [];
             if(this.state.latitude !== 0 || this.state.longitude !== 0){
                 markers.push({
@@ -77,23 +101,25 @@ export class ProviderCentral extends React.Component {
                     }
                 });
             }
-            console.log("RENDER")
+            // console.log("RENDER")
             return (
                 <div id="page">
                     <section>
                         <div id="topscrollmessage" className="titleheader">
-                        <span>
-                            Provider Central
-                        </span>
+                            <span>
+                                Provider Central
+                            </span>
                         </div>
                     </section>
                     <section>
                         <button onClick={this.onToggleMap.bind(this)}>Toggle Map</button>
-                        {this.state.isMapEnabled ? (<Map
-                            center={[this.state.latitude, this.state.longitude]}
-                            markers={markers}
-                            onDblclick={(e)=>{console.log(e);console.log("DBL");this.setState({latitude:e.latlng.lat, longitude:e.latlng.lng})}}
-                        />) : ""}
+                        {this.state.isMapEnabled ? (
+                            <LocationInput
+                                location={{lat:this.state.latitude, lng: this.state.longitude}}
+                                radius={this.state.radius}
+                                onChange={this.locationOnChange.bind(this)}
+                            />
+                        ) : ""}
                         <div className="provider-central-details">
                             <div className="provider-central-details-table">
                                 <div className="provider-central-detail-item provider-central-detail-contact">

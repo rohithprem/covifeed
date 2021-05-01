@@ -43,7 +43,7 @@ router.get("/current", async (req,res) => {
     // if(req.session.user && req.cookies.user_sid){
         let loggedInUsername = req.session.user;
         try{
-            let filter = {"PrimaryContactNumberToPlaceOrder":loggedInUsername ? loggedInUsername : "9871424973"};
+            let filter = {"PrimaryContactNumberToPlaceOrder":loggedInUsername ? loggedInUsername : "8147004916"};
             let userDoc = await Provider.findOne(filter).exec();
             console.log(userDoc);
             if(userDoc != null){
