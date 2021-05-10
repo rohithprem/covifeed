@@ -1,0 +1,46 @@
+section.foodsearch-container{
+    height: auto;
+    min-height: calc(100vh - 80px);
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    z-index: 9;
+
+    background-image: url('../SearchBackground.jpeg');
+}
+
+section.foodsearch-container:before{
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: block;
+    background: rgba(51,51,51,0.2);
+}
+
+div.search-block{
+    background-color: #fff;
+    top: 0;
+    -webkit-transform: none;
+    transform: none;
+    position: relative;
+    padding: 0 40px 20px 40px;
+    display: block;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    width: 350px;
+    border-radius: 8px;
+    height: auto;
+    max-height: 100%;
+    box-shadow: 0 10px 35px rgb(0 0 0 / 30%);
+    text-align: left;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-align-items: flex-start;
+    align-items: flex-start;
+}

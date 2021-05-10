@@ -3,6 +3,7 @@ import CovifeedIntroVideo from "../cfeed_instructions.mp4"
 import SocialMedia from "./SocialMedia"
 import LocationFinder from "./LocationFinder"
 import React from 'react';
+import FoodSearchWidget from "./FoodSearchWidget";
 //  import { useSelector, useDispatch } from 'react-redux';
 
 export class Home extends React.Component{
@@ -14,7 +15,7 @@ export class Home extends React.Component{
     render(){
         return (
             <div id="page">
-                <section>
+                {/*<section>
                 <span id="topscrollmessage" className="titletext fullwidth">
                     Scroll down to search for food providers near you
                 </span>
@@ -42,11 +43,9 @@ export class Home extends React.Component{
                     <div className="dataheader">
                         Finder - Use the filters to find details and phone numbers of home food providers near your location
                     </div>
-                    {/*<iframe className="embeddeddata" height="1000"
-                            src="https://datastudio.google.com/embed/reporting/3a7151da-593c-4193-82f0-01991d8fdc8c/page/RNCEC"
-                            allowFullScreen/>*/}
                     <LocationFinder/>
-                </section>
+                </section>*/}
+                <FoodSearchWidget/>
                 <SocialMedia/>
             </div>
         );

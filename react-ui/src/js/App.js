@@ -33,12 +33,12 @@ function App() {
                                     <li className="navigationelement">
                                         <NavLink exact activeClassName="selected" to="/home">Food Finder</NavLink>
                                     </li>
-                                    <li className="navigationelement">
+                                    {/*<li className="navigationelement">
                                         <NavLink exact activeClassName="selected" to="/register-food-provider">Register Food Provider</NavLink>
                                     </li>
                                     <li className="navigationelement">
                                         <NavLink exact activeClassName="selected" to="/volunteer-to-help">Volunteer to Help</NavLink>
-                                    </li>
+                                    </li>*/}
                                     <li className="navigationelement">
                                         <NavLink exact activeClassName="selected" to="/about">About</NavLink>
                                     </li>
